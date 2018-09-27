@@ -25,9 +25,4 @@ D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.pdb
 D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.csprojResolveAssemblyReference.cache
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.exe.config
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.exe
-D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\MathNet.Numerics.dll
-D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\RCCA_File.dll
-D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\MathNet.Numerics.xml
-D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\RCCA_File.pdb
-D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\RCCA_File.dll.config
 D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.exe

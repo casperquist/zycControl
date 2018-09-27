@@ -1699,7 +1699,7 @@ namespace ZYCControl
             y.Sort();
             int m = y.FindIndex(s => s >= x0);
             int tx = 0;
-            if (m != 0)            
+            if (m > 0)            
                 tx = (y[m] - x0 >= x0 - y[m - 1]) ? m - 1 : m;
             return x.ToList().FindIndex(s => s == y[tx]);
         }
