@@ -1,0 +1,15 @@
+D:\code\VC#\ZYCControl\ZYCControl\bin\Release\ZYCControl.exe.config
+D:\code\VC#\ZYCControl\ZYCControl\bin\Release\ZYCControl.exe
+D:\code\VC#\ZYCControl\ZYCControl\bin\Release\ZYCControl.pdb
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.DataTips.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.Figure.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.FigureForm.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.FigureForm_Plot2D.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.FigurePlot2D.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.LongStrip.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.LongStripForm.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.Properties.Resources.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.csproj.GenerateResource.Cache
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.csproj.CoreCompileInputs.cache
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.exe
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.pdb
