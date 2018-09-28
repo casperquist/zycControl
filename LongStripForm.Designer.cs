@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.longStrip1 = new ZYCControl.LongStrip();
+            this.longStrip1 = new ZYCControl.LongTrip();
             this.SuspendLayout();
             // 
             // longStrip1
             // 
             this.longStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.longStrip1.JudgeLine0 = 0F;
-            this.longStrip1.JudgeLine0Enable = false;
-            this.longStrip1.JudgeLine1 = 0F;
-            this.longStrip1.JudgeLine1Enable = false;
-            this.longStrip1.JudgeLine2 = 0F;
-            this.longStrip1.JudgeLine2Enable = false;
+            this.longStrip1.transparentInfo1.JudgeLine0 = 0F;
+            this.longStrip1.transparentInfo1.JudgeLine0Enable = false;
+            this.longStrip1.transparentInfo1.JudgeLine1 = 0F;
+            this.longStrip1.transparentInfo1.JudgeLine1Enable = false;
+            this.longStrip1.transparentInfo1.JudgeLine2 = 0F;
+            this.longStrip1.transparentInfo1.JudgeLine2Enable = false;
             this.longStrip1.Location = new System.Drawing.Point(0, 0);
             this.longStrip1.Name = "longStrip1";
             this.longStrip1.Size = new System.Drawing.Size(284, 261);
@@ -60,6 +60,6 @@
         
         #endregion
 
-        public LongStrip longStrip1;
+        public LongTrip longStrip1;
     }
 }

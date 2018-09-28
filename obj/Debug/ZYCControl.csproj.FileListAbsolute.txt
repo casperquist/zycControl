@@ -26,3 +26,5 @@ D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.csprojResolveAssemblyRefe
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.exe.config
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.exe
 D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.exe
+D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.TransparentInfo.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.LongTrip.resources

@@ -1810,9 +1810,11 @@ namespace ZYCControl
         /// <returns></returns>
         private bool DataInCurrentDisArea(float[] Data, ref Point2Dim pixel)
         {
-            Point2Dim tmp = new Point2Dim();
-            tmp.x = width0 * (Data[0] - x0) / xw;
-            tmp.y = height0 - height0 * (Data[1] - y0) / yh;
+            Point2Dim tmp = new Point2Dim
+            {
+                x = width0 * (Data[0] - x0) / xw,
+                y = height0 - height0 * (Data[1] - y0) / yh
+            };
 
             pixel = tmp;
 

@@ -10,22 +10,14 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
-    public partial class LongStrip : UserControl
+    public partial class LongTrip : UserControl
     {
-        public LongStrip()
-        {
-            SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲 
-            InitializeComponent();
-        }
+
+        public Plot2D ima;
 
         private bool MouseIsInControl = false;
         private DrawZoomRegion zoomRegion = null;
-        public bool AltIsDown, ControlIsDown, ShiftIsDown;
-        private DataTips tips;
-        private bool firstZoom;
-        public Plot2D ima;
+        public bool firstZoom;
         private float wt, ht;
         /// <summary>
         /// 输出信息的字体
@@ -39,7 +31,7 @@ namespace ZYCControl
         /// 输出信息的数据格式
         /// </summary>
         public string xStringFormat, ystringFormat;
-        private Graphics g ;
+        private Graphics g;
 
         private bool _JudgeLine0Enable;
         public bool JudgeLine0Enable { get { return _JudgeLine0Enable; } set { _JudgeLine0Enable = value; } }
@@ -57,57 +49,9 @@ namespace ZYCControl
         public float JudgeLine1 { get { return _JudgeLine1; } set { _JudgeLine1 = value; } }
 
         private float _JudgeLine2;
-        public float JudgeLine2 { get { return _JudgeLine2; } set { _JudgeLine2 = value; } }
-        
-        /// <summary>
-        /// 创建新的Image,并生成位图
-        /// </summary>
-        /// <param name="data">数据源</param>
-        /// <param name="row">bmp的行数</param>
-        /// <param name="col">bmp的列数</param>
-        /// <returns></returns>
-        public void NewImage(List<series> a, bool fixRange, float[] range)
-        {
-            if (g == null)
-                g = CreateGraphics();
+        public float JudgeLine2 { get { return _JudgeLine2; } set { _JudgeLine2 = value; } }   
 
-            Initialization();
-
-            // 重设参数
-            ima = new Plot2D();
-            ima.rawData = a;
-            ima.ControlWidth = Width;
-            ima.ControlHeight = Height;
-            ima.FixRange = fixRange;
-            ima.x0 = range[0];
-            ima.x1 = range[1];
-            ima.y0 = range[2];
-            ima.y1 = range[3];
-            ima.Refresh();
-            
-            firstZoom = true;
-            Refresh();
-        }
-
-        private void Initialization()
-        {
-            if (infoFont == null)
-                infoFont = new Font("宋体", 15, FontStyle.Bold);
-            if (xName == null)
-                xName = "X";
-            if (yName == null)
-                yName = "Y";
-            if (xUnit == null)
-                xUnit = "";
-            if (yUnit == null)
-                yUnit = "";
-            if (xStringFormat == null)
-                xStringFormat = "{0:0.0}";
-            if (ystringFormat == null)
-                ystringFormat = "{0:0.00}";
-        }
-
-        private void Plot2D_MouseMove(object sender, MouseEventArgs e)
+        private void Current_MouseMove(object sender, MouseEventArgs e)
         {
             Refresh();
             Point p = new Point(e.X, e.Y);
@@ -116,40 +60,32 @@ namespace ZYCControl
             //画阴影区域
             if (zoomRegion != null)
             {
-                DrawRectangle(new Point(e.X,Width));
-            }            
+                DrawRectangle(new Point(e.X, Width));
+            }
         }
 
-        private void Plot2D_MouseDoubleClick(object sender, MouseEventArgs e)
+        private void Current_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            ima.Refresh();
-            //ima.inputData.ReSet();
-
             ima.DisplayZoneMin = new float[2] { 0, 0 };
             ima.DisplayZoneMax = new float[2] { 1, 1 };
             ima.Refresh();
             firstZoom = true;
         }
 
-        private void Plot2D_MouseDown(object sender, MouseEventArgs e)
+        private void Current_MouseDown(object sender, MouseEventArgs e)
         {
-            
+
             if (MouseIsInControl)
             {
-                if (!AltIsDown)
-                {
-                    zoomRegion = new DrawZoomRegion();
-                    zoomRegion.p0 = new Point(e.X, 0);
-                }
+                zoomRegion = new DrawZoomRegion();
+                zoomRegion.p0 = new Point(e.X, 0);
             }
         }
 
-        private void Plot2D_MouseUp(object sender, MouseEventArgs e)
+        private void Current_MouseUp(object sender, MouseEventArgs e)
         {
-            if (zoomRegion != null & AltIsDown == false)
+            if (zoomRegion != null)
             {
-                if (tips != null)
-                { tips.Clear(); tips = null; }
                 Refresh();
                 CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
                 if (zoomRegion.g != null)
@@ -159,16 +95,14 @@ namespace ZYCControl
             }
         }
 
-        private void Plot2D_SizeChanged(object sender, EventArgs e)
+        private void Current_SizeChanged(object sender, EventArgs e)
         {
-            ClearToolTip();
             if (ima != null)
             {
                 ima.ControlHeight = Height == 0 ? 1 : Height;
                 ima.ControlWidth = Width == 0 ? 1 : Width;
                 ima.Refresh();
 
-                Refresh();
             }
         }
 
@@ -177,20 +111,31 @@ namespace ZYCControl
             Point np = this.PointToScreen(p);
             Rectangle rc = RectangleToScreen(ClientRectangle);
 
-            //Console.WriteLine(np.X.ToString() + " " + np.Y.ToString());
-            //Console.WriteLine(rc.X.ToString() + " " + rc.Y.ToString());
-            //Console.WriteLine((rc.X+rc.Width).ToString() + " " + (rc.Y+rc.Height).ToString());
-
             if (rc.Contains(np))
             {
                 //鼠标形态改变
                 Cursor = Cursors.Cross;
                 MouseIsInControl = true;
-
-                
             }
             else
                 MouseIsInControl = false;
+        }
+
+        private void Current_KeyDown(object sender, KeyEventArgs e)
+        {
+            if ((Keys.Control & Control.ModifierKeys) == Keys.Control & MouseIsInControl)
+            {
+                DrawTip(PointToClient(MousePosition).X);
+            }
+
+        }
+
+        private void Current_KeyUp(object sender, KeyEventArgs e)
+        {
+            if ((Control.ModifierKeys) == Keys.None)
+            {
+                Refresh();
+            }
         }
 
         /// <summary>
@@ -211,7 +156,7 @@ namespace ZYCControl
                 np.Y = 0;
 
             if (zoomRegion.g == null)
-                zoomRegion.g = this.CreateGraphics();
+                zoomRegion.g = g;
             zoomRegion.p1 = np;
 
             if (zoomRegion.pChanged)
@@ -227,7 +172,6 @@ namespace ZYCControl
         /// <param name="zoomRectangle"></param>
         private void CalRealZoomRect(Rectangle zoomRectangle)
         {
-            ClearToolTip();
             if (zoomRectangle.Width != 0 & zoomRectangle.Height != 0)
             {
 
@@ -256,70 +200,6 @@ namespace ZYCControl
             }
         }
 
-        protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            Graphics graphics = e.Graphics;
-            if (ima != null)
-                graphics.DrawImage(ima.bmp, 0, 0);
-            DrawJudgeLines(graphics);
-            GC.Collect();
-        }
-
-        private void ClearToolTip()
-        {
-            if (tips != null)
-                tips.Clear();
-            tips = null;
-            Invalidate();
-        }
-        
-        private void LongStrip_KeyDown(object sender, KeyEventArgs e)
-        {
-            if ((Keys.Control & Control.ModifierKeys) == Keys.Control & MouseIsInControl)
-            {
-                DrawTip(PointToClient(MousePosition).X);
-            }
-            
-        }
-
-        private void LongStrip_KeyUp(object sender, KeyEventArgs e)
-        {
-            if ((Control.ModifierKeys) == Keys.None )
-            {
-                Refresh();
-            }
-        }
-
-        /// <summary>
-        /// 画单根预警线
-        /// </summary>
-        /// <param name="enable"></param>
-        /// <param name="value"></param>
-        /// <param name="pen"></param>
-        /// <param name="g"></param>
-        private void DrawJudgeLine(bool enable, float value, Pen pen, Graphics g)
-        {
-            if (enable)
-            {
-                int y = (int)((ima.y1 - value) / ima.yh * ima.ControlHeight);
-                if (y >= 0 & y <= ima.ControlHeight)
-                    g.DrawLine(pen, new Point (0,y), new Point(ima.ControlWidth, y));
-            }
-        }
-
-        /// <summary>
-        /// 画全部预警线
-        /// </summary>
-        /// <param name="g"></param>
-        private void DrawJudgeLines(Graphics g)
-        {
-            Pen pen = new Pen(Color.Red);
-            DrawJudgeLine(_JudgeLine0Enable, _JudgeLine0, pen, g);
-            DrawJudgeLine(_JudgeLine1Enable, _JudgeLine1, pen, g);
-            DrawJudgeLine(_JudgeLine2Enable, _JudgeLine2, pen, g);
-        }
-
         /// <summary>
         /// 画数据提示tip，包含竖线，圆点和信息
         /// </summary>
@@ -331,7 +211,7 @@ namespace ZYCControl
             List<int> pxl_y;
             List<float[]> info = ima.PixelToData(px, out pxl_x, out pxl_y);
             g.DrawLine(new Pen(Color.Red), pxl_x, 0, pxl_x, Width);
-            
+
             List<Color> color = new List<Color>(ima.seriesNum);
             for (int i = 0; i < ima.seriesNum; i++)
                 color.Add(ima.rawData[i].sColor);
@@ -350,23 +230,23 @@ namespace ZYCControl
         {
             int sn = py.Count();
             List<Rectangle> drawed = new List<Rectangle>(sn);
-          
+
             for (int i = 0; i < sn; i++)
             {
                 int DrawPointSize = 2;
-                g.FillEllipse(new SolidBrush(color[i]), new Rectangle(px- DrawPointSize, py[i]-DrawPointSize, 
-                    2* DrawPointSize+1, 2* DrawPointSize+1));                
+                g.FillEllipse(new SolidBrush(color[i]), new Rectangle(px - DrawPointSize, py[i] - DrawPointSize,
+                    2 * DrawPointSize + 1, 2 * DrawPointSize + 1));
                 string infos = xName + "=" + string.Format(xStringFormat, info[i][0]) + xUnit
                     + "  " + yName + "=" + string.Format(xStringFormat, info[i][1]) + yUnit;
                 Point point = new Point(px + DrawPointSize, py[i] + DrawPointSize);
                 SizeF sizeF = g.MeasureString(infos, infoFont);
-                Rectangle rectangle = new Rectangle(point.X,point.Y, (int)sizeF.Width+DrawPointSize, (int)sizeF.Height+DrawPointSize);
+                Rectangle rectangle = new Rectangle(point.X, point.Y, (int)sizeF.Width + DrawPointSize, (int)sizeF.Height + DrawPointSize);
                 ///使数据信息在显示范围内
                 if (point.X + rectangle.Width > Width)
                     point.X -= rectangle.Width;
                 if (point.Y + rectangle.Height > Height)
                     point.Y -= rectangle.Height;
-                ResetPoint(drawed,ref point);                
+                ResetPoint(drawed, ref point);
                 g.DrawString(infos, infoFont, new SolidBrush(color[i]), point);
                 rectangle = new Rectangle(point.X, point.Y, (int)sizeF.Width + DrawPointSize, (int)sizeF.Height + DrawPointSize);
                 drawed.Add(rectangle);
@@ -377,18 +257,59 @@ namespace ZYCControl
         private void ResetPoint(List<Rectangle> rec, ref Point a)
         {
             if (rec.Count == 0)
-                return ;
+                return;
             int minH = rec[0].Height;
             while (PointInRectangles(rec, a))
                 a.Y += minH;
         }
 
-        private bool PointInRectangles (List<Rectangle> rec, Point a)
+        private bool PointInRectangles(List<Rectangle> rec, Point a)
         {
             bool result = false;
             for (int i = 0; i < rec.Count(); i++)
                 result |= rec[i].Contains(a);
             return result;
-        } 
+        }
+
+        public LongTrip()
+        {
+            SetStyle(ControlStyles.UserPaint, true);
+            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
+            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲 
+            InitializeComponent();
+            transparentInfo1.Select();
+        }
+
+        /// <summary>
+        /// 创建新的Image,并生成位图
+        /// </summary>
+        /// <param name="data">数据源</param>
+        /// <param name="row">bmp的行数</param>
+        /// <param name="col">bmp的列数</param>
+        /// <returns></returns>
+        public void NewImage(List<series> a, bool fixRange, float[] range)
+        {
+
+            transparentInfo1.Initialization();
+            ima = new Plot2D();
+
+            // 重设参数
+            ima = new Plot2D();
+            ima.rawData = a;
+            ima.ControlWidth = Width;
+            ima.ControlHeight = Height;
+            ima.FixRange = fixRange;
+            ima.x0 = range[0];
+            ima.x1 = range[1];
+            ima.y0 = range[2];
+            ima.y1 = range[3];
+            ima.Refresh();
+
+            bmpShow1.bmp = ima.bmp;
+            transparentInfo1.ima = ima;
+
+            transparentInfo1.firstZoom = true;
+            Refresh();
+        }
     }
 }

@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BmpShow.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="BmpShow.Designer.cs">
+      <DependentUpon>BmpShow.cs</DependentUpon>
+    </Compile>
     <Compile Include="CodeFile1.cs" />
     <Compile Include="DataTips.cs">
       <SubType>UserControl</SubType>
@@ -99,12 +105,24 @@
     <Compile Include="LongStripForm.Designer.cs">
       <DependentUpon>LongStripForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LongTrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LongTrip.Designer.cs">
+      <DependentUpon>LongTrip.cs</DependentUpon>
+    </Compile>
     <Compile Include="Point2Dim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TransparentInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TransparentInfo.Designer.cs">
+      <DependentUpon>TransparentInfo.cs</DependentUpon>
     </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
@@ -130,9 +148,15 @@
     <EmbeddedResource Include="LongStripForm.resx">
       <DependentUpon>LongStripForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LongTrip.resx">
+      <DependentUpon>LongTrip.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TransparentInfo.resx">
+      <DependentUpon>TransparentInfo.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
