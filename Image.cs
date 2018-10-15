@@ -1420,16 +1420,14 @@ namespace ZYCControl
         public series(float[] a, Color c)
         {
             series t = new series(a);
-            x = t.x;
-            y = t.y;
+            t.CopyTo(this);
             sColor = c;
         }
 
         public series(float[] a, float[] b, Color c)
         {
             series t = new series(a, b);
-            x = t.x;
-            y = t.y;
+            t.CopyTo(this);
             sColor = c;
         }
     }
@@ -1728,6 +1726,9 @@ namespace ZYCControl
             for (int i = 0; i < m; i++)
                 if (draw[i])
                     n += 2;
+
+            if (n == 0)
+                return;
 
             Point2Dim[] nesp = new Point2Dim[n];
             if (n == m*2)

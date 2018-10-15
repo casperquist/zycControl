@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{16E42840-ACCF-45E4-A360-F27B6518093A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZYCControl</RootNamespace>
     <AssemblyName>ZYCControl</AssemblyName>
@@ -117,6 +117,12 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RulerBar.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RulerBar.Designer.cs">
+      <DependentUpon>RulerBar.cs</DependentUpon>
     </Compile>
     <Compile Include="TransparentInfo.cs">
       <SubType>UserControl</SubType>

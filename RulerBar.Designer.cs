@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class TransparentInfo
+    partial class RulerBar
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -28,17 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // TransparentInfo
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.Name = "TransparentInfo";
-            
-            this.ResumeLayout(false);
-
         }
 
         #endregion

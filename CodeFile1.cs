@@ -8,7 +8,7 @@ namespace ZYCControl
     {
         static void Main(string[] args)
         {
-
+            double x = Convert.ToDouble("s");
 
 
             LsTest();

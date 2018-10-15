@@ -105,7 +105,7 @@ namespace ZYCControl
             {
                 if (tips != null)
                 { tips.Clear(); tips = null; }
-                Refresh();
+                Invalidate();
                 CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
                 if (zoomRegion.g != null)
                     zoomRegion.g.Dispose();
@@ -154,7 +154,7 @@ namespace ZYCControl
                 }
                 firstZoom = false;
                 ima.RefreshBMP();
-                Refresh();
+                Invalidate();
             }
         }
 
@@ -181,7 +181,7 @@ namespace ZYCControl
 
             if (zoomRegion.pChanged)
             {
-                Refresh();
+                Invalidate();
                 zoomRegion.Draw(true);
             }
         }
@@ -236,7 +236,7 @@ namespace ZYCControl
                 ima.outBmp.width = Width == 0 ? 1 : Width;
                 ima.RefreshBMP();
 
-                Refresh();
+                Invalidate();
             }
         }
 

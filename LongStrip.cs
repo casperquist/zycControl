@@ -86,7 +86,7 @@ namespace ZYCControl
             ima.Refresh();
             
             firstZoom = true;
-            Refresh();
+            Invalidate();
         }
 
         private void Initialization()
@@ -109,7 +109,7 @@ namespace ZYCControl
 
         private void Plot2D_MouseMove(object sender, MouseEventArgs e)
         {
-            Refresh();
+            Invalidate();
             Point p = new Point(e.X, e.Y);
             JudgeMouseIsInControl(p);
 
@@ -150,7 +150,7 @@ namespace ZYCControl
             {
                 if (tips != null)
                 { tips.Clear(); tips = null; }
-                Refresh();
+                Invalidate();
                 CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
                 if (zoomRegion.g != null)
                     zoomRegion.g.Dispose();
@@ -168,7 +168,7 @@ namespace ZYCControl
                 ima.ControlWidth = Width == 0 ? 1 : Width;
                 ima.Refresh();
 
-                Refresh();
+                Invalidate();
             }
         }
 
@@ -216,7 +216,7 @@ namespace ZYCControl
 
             if (zoomRegion.pChanged)
             {
-                Refresh();
+                Invalidate();
                 zoomRegion.Draw(true);
             }
         }
@@ -252,7 +252,7 @@ namespace ZYCControl
                 }
                 firstZoom = false;
                 ima.Refresh();
-                Refresh();
+                Invalidate();
             }
         }
 
@@ -287,7 +287,7 @@ namespace ZYCControl
         {
             if ((Control.ModifierKeys) == Keys.None )
             {
-                Refresh();
+                Invalidate();
             }
         }
 
@@ -304,7 +304,11 @@ namespace ZYCControl
             {
                 int y = (int)((ima.y1 - value) / ima.yh * ima.ControlHeight);
                 if (y >= 0 & y <= ima.ControlHeight)
-                    g.DrawLine(pen, new Point (0,y), new Point(ima.ControlWidth, y));
+                {
+                    g.DrawLine(pen, new Point(0, y), new Point(ima.ControlWidth, y));
+                    g.DrawString(string.Format(ystringFormat, value), infoFont, 
+                        new SolidBrush(Color.Red), new Point(0, y));
+                }
             }
         }
 

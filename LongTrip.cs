@@ -306,9 +306,9 @@ namespace ZYCControl
             ima.Refresh();
 
             bmpShow1.bmp = ima.bmp;
-            transparentInfo1.ima = ima;
+            //transparentInfo1.ima = ima;
 
-            transparentInfo1.firstZoom = true;
+            //transparentInfo1.firstZoom = true;
             Refresh();
         }
     }
