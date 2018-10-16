@@ -13,3 +13,6 @@ D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.csproj.GenerateResource
 D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.csproj.CoreCompileInputs.cache
 D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.exe
 D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.pdb
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.LongTrip.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.TransparentInfo.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Release\ZYCControl.csprojResolveAssemblyReference.cache

@@ -1430,6 +1430,17 @@ namespace ZYCControl
             t.CopyTo(this);
             sColor = c;
         }
+
+        public series GetRange(int index, int count)
+        {
+            series a = new series();
+            a.Count = count;
+            a.x = x.ToList().GetRange(index, count).ToArray(); 
+            a.y = y.ToList().GetRange(index, count).ToArray();
+            a.s = s.ToList().GetRange(index, count).ToArray();
+            a.sColor = sColor;
+            return a;
+        }
     }
 
     public class Plot2D
@@ -1440,6 +1451,7 @@ namespace ZYCControl
             get { return _rawData; }
             set { _rawData = value; }
         }
+        public List<series> preData;
            
         public Bitmap bmp;
         /// <summary>
@@ -1479,18 +1491,33 @@ namespace ZYCControl
         public float xw,yh;
         public int seriesNum;
         private List<series> pixelData;
+        /// <summary>
+        /// 上一个修改的末点
+        /// </summary>
+        private List<float[]> lastSerial;
+        /// <summary>
+        /// 如果控件未激活，则不进行计算
+        /// </summary>
+        public bool ControlActived = true;
 
-        public void Refresh()
+        public void Refresh(bool paraChanged)
         {
-            ResetPara();
+            if (!ControlActived)
+                return;
+
+            ResetPara(paraChanged);
             GetDataRange();
-            ResetPixelData();
-
-            for (int i = 0; i < seriesNum; i++)            //Parallel.For(0,seriesNum,i=>
-                DrawSeries(pixelData[i], inG[i]);
-            
-
-
+            if (paraChanged)
+            {                
+                ResetPixelData();
+                for (int i = 0; i < seriesNum; i++)
+                    DrawSeries(pixelData[i], inG[i]);
+            }
+            else
+            {
+                for (int i = 0; i < seriesNum; i++)
+                    ReDrawDiffArea(preData[i], _rawData[i]);
+            }
         }
 
         /// <summary>
@@ -1499,11 +1526,14 @@ namespace ZYCControl
         /// 控件尺寸变化；
         /// 原始数据变化
         /// </summary>
-        public void ResetPara()
+        public void ResetPara(bool paraChanged)
         {
-            if (bmp != null)
-                bmp.Dispose();
-            bmp = new Bitmap(ControlWidth, ControlHeight);
+            if (paraChanged)
+            {
+                if (bmp != null)
+                    bmp.Dispose();
+                bmp = new Bitmap(ControlWidth, ControlHeight);
+            }            
             g = Graphics.FromImage(bmp);
             width0 = ControlWidth / (DisplayZoneMax[0] - DisplayZoneMin[0]);
             height0 = ControlHeight / (DisplayZoneMax[1] - DisplayZoneMin[1]);
@@ -1517,7 +1547,7 @@ namespace ZYCControl
                 inG.Clear();
             else
                 inG = new List<bool[]>(seriesNum);
-        }        
+        }                                
 
         /// <summary>
         /// 当前数据范围，原始数据变化是需进行该操作
@@ -1564,7 +1594,7 @@ namespace ZYCControl
         public void DrawLine(Pen c, Point p0, Point p1)
         {
             if (p0 == p1)
-                return;           
+                return;          
 
             g.DrawLine(c, p0, p1);//绘制直线
         }
@@ -1751,7 +1781,8 @@ namespace ZYCControl
             /*for (int i = 0; i < n; i++)
                 nsp[i] = Point2ToPoint(nesp[i]);*/
 
-            Pen newPen = new Pen(c);//定义一个画笔
+            Pen newPen;
+            newPen = new Pen(c);//定义一个画笔
             /*g.DrawLines(newPen, nsp);*/
             List<int> tmp = new List<int>(10000);        
             tmp.Add(nsp[0].Y);            
@@ -1801,6 +1832,36 @@ namespace ZYCControl
                 ts.sColor = ds.sColor;
                 pixelData.Add(ts);
             }
+        }
+
+        /// <summary>
+        /// 重新计算所有的数据点
+        /// </summary>
+        private List<series> SetPixelData(List<series> s, out List<bool[]> ing)
+        {
+            int sn = s.Count;
+            List<series> pData = new List<series>(sn);
+            ing = new List<bool[]>(sn);
+            Point2Dim tmp = new Point2Dim();
+            series ds, ts;
+            for (int i = 0; i < sn; i++)
+            {
+                ds = s[i];
+                int num = ds.Count;
+                ts = new series(num);
+                ing.Add(new bool[num]);
+                for (int j = 0; j < num; j++)
+                {
+                    ing[i][j] =
+                    DataInCurrentDisArea(new float[] { ds.x[j], ds.y[j] }, ref tmp);
+                    ts.x[j] = tmp.x;
+                    ts.y[j] = tmp.y;
+                }
+                ts.sColor = ds.sColor;
+                pData.Add(ts);
+            }
+
+            return pData;
         }
 
         /// <summary>
@@ -1981,8 +2042,143 @@ namespace ZYCControl
                 (int)Math.Round(a.y)));
         }        
 
-
+        /// <summary>
+        /// 重画存在不同的区域
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        private void ReDrawDiffArea(series a, series b)
+        {
+            List<series> diff_a, diff_b;
+            List<series>[] diff = seriesCompare(a, b);
+            if (diff == null)
+                return;
+            diff_a = diff[0];
+            diff_b = diff[1];
+            List<bool[]> ing_a, ing_b;
+            List<series> pa, pb;
+            pa = SetPixelData(diff_a, out ing_a);
+            pb = SetPixelData(diff_b, out ing_b);
+            for (int i = 0; i < pa.Count; i++)
+            {
+                DrawSeries(pa[i], ing_a[i]);
+                DrawSeries(pb[i], ing_b[i]);
+            }
+            
+        }
         
+        /// <summary>
+        /// 比较两个series的区别区域
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        private List<series>[] seriesCompare(series a, series b)
+        {
+            float[] ay = a.y;
+            float[] by = b.y;
+            int n = a.Count;
+            List<int> diff = new List<int>(n);
+            for (int i = 0; i < n; i++)
+                if (ay[i] != by[i])
+                    diff.Add(i);
+
+            List<int[]>[] diff_se = ListContinuous(diff);
+            if (diff_se == null)
+                return null;
+            List<series> diff_a = new List<series>(n);
+            List<series> diff_b = new List<series>(n);
+
+            int m = diff_se[0].Count;
+            for (int i = 0; i < m; i++)
+            {
+                int index = diff_se[0][i][0];
+                int count = diff_se[0][i][1] - diff_se[0][i][0];
+                diff_a.Add(a.GetRange(index, count));
+                diff_a.Last().sColor = SystemColors.Control;
+
+                index = diff_se[1][i][0];
+                count = diff_se[1][i][1] - diff_se[1][i][0];
+                diff_b.Add(b.GetRange(index, count));
+            }
+
+            return new List<series>[] { diff_a, diff_b };
+        }
+
+        /// <summary>
+        /// 获取所有的变化索引的起点末点
+        /// </summary>
+        /// <param name="a"></param>
+        /// <returns></returns>
+        private List<int[]>[] ListContinuous(List<int> a)
+        {
+            int n = a.Count;
+            if (n == 0)
+                return null;
+            List<int[]> res0 = new List<int[]>(n);
+            List<int[]> res1 = new List<int[]>(n);
+
+            if (n == 1)
+            {
+                res0.Add(GetCloseIndex(new int[] { a[0], a[0] }, n));
+                res1.Add(new int[] { a[0], a[0] });
+                return new List<int[]>[] { res0,res1};
+            }
+            int k0 = 0, k1 = 1, k2 = 0;
+            while (k1 < n)
+            {
+                if (a[k1] - a[k2] == 1)
+                {
+                    k1++;
+                    k2++;
+                }
+                else
+                {
+                    res0.Add(GetCloseIndex(new int[] { a[k0], a[k1] }, n));
+                    res1.Add(new int[] { a[k0], a[k1] });
+
+                    k0 = k1 + 1;
+                    k2 = k1 + 2;
+                    k1 = k1 + 2;
+                    if (k0 >= n)
+                        break;
+                    else
+                        if (k1 >= n)
+                            k1 = k0;
+                }
+            }
+            res0.Add(GetCloseIndex(new int[] { a[k0], a[n-1] }, n));
+            res1.Add(new int[] { a[k0], a[n-1] });
+            return new List<int[]>[] { res0, res1 };
+        }
+
+        /// <summary>
+        /// 获取所有变化的索引
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="count"></param>
+        /// <returns></returns>
+        private int[] GetCloseIndex(int[] a, int count)
+        {
+            int s = a[0] == 0 ? 0 : a[0] - 1;
+            int e = a[1] == count - 1 ? count - 1 : a[1] + 1;
+            return new int[] { s, e };
+        }
+
+        private List<series> CopyListSeries(List<series> a)
+        {
+            int n = a.Count;
+            List<series> b = new List<series>(n);
+            for (int i = 0; i < n; i++)
+            {
+                series tmp = new series();
+                a[i].CopyTo(tmp);
+                b.Add(tmp);
+            }
+            return b;
+        }
+
+
     }
     
 

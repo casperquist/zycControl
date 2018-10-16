@@ -68,7 +68,7 @@ namespace ZYCControl
         {
             ima.DisplayZoneMin = new float[2] { 0, 0 };
             ima.DisplayZoneMax = new float[2] { 1, 1 };
-            ima.Refresh();
+            ima.Refresh(true);
             firstZoom = true;
         }
 
@@ -101,7 +101,7 @@ namespace ZYCControl
             {
                 ima.ControlHeight = Height == 0 ? 1 : Height;
                 ima.ControlWidth = Width == 0 ? 1 : Width;
-                ima.Refresh();
+                ima.Refresh(true);
 
             }
         }
@@ -195,7 +195,7 @@ namespace ZYCControl
                     ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
                 }
                 firstZoom = false;
-                ima.Refresh();
+                ima.Refresh(true);
                 Refresh();
             }
         }
@@ -303,7 +303,7 @@ namespace ZYCControl
             ima.x1 = range[1];
             ima.y0 = range[2];
             ima.y1 = range[3];
-            ima.Refresh();
+            ima.Refresh(true);
 
             bmpShow1.bmp = ima.bmp;
             //transparentInfo1.ima = ima;

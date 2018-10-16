@@ -8,8 +8,8 @@ namespace ZYCControl
     {
         static void Main(string[] args)
         {
-            double x = Convert.ToDouble("s");
-
+            
+            
 
             LsTest();
             //float[] res = new float[1024*1024];
@@ -70,7 +70,7 @@ namespace ZYCControl
             
         static void LsTest()
         {
-            int num = 13610;
+            int num = 63610;
             float[] x = new float[num];
             float[] y = new float[num];
             float[] z = new float[num];
@@ -89,8 +89,8 @@ namespace ZYCControl
             t.Add(b);
 
             LongStripForm lsf = new LongStripForm();
-            lsf.longStrip1.transparentInfo1.JudgeLine0Enable = true;
-            lsf.longStrip1.transparentInfo1.JudgeLine0 = 0.5f;
+            lsf.longStrip1.JudgeLine0Enable = true;
+            lsf.longStrip1.JudgeLine0 = 0.5f;
             lsf.FigureInitial(t, false, new float[4] { x[0], x[num-1], y[0], y[num - 1] });
             lsf.ShowDialog();
         }

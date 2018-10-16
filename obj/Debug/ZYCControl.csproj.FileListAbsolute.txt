@@ -23,8 +23,8 @@ D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.csproj.CoreCompileInputs.
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.pdb
 D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.pdb
 D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.csprojResolveAssemblyReference.cache
+D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.TransparentInfo.resources
+D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.LongTrip.resources
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.exe.config
 D:\code\VC#\ZYCControl\ZYCControl\bin\Debug\ZYCControl.exe
 D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.exe
-D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.TransparentInfo.resources
-D:\code\VC#\ZYCControl\ZYCControl\obj\Debug\ZYCControl.LongTrip.resources

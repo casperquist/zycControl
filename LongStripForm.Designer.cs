@@ -28,22 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.longStrip1 = new ZYCControl.LongTrip();
+            this.components = new System.ComponentModel.Container();
+            this.longStrip1 = new ZYCControl.LongStrip();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // longStrip1
             // 
+            this.longStrip1.BackColor = System.Drawing.Color.Transparent;
             this.longStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.longStrip1.transparentInfo1.JudgeLine0 = 0F;
-            this.longStrip1.transparentInfo1.JudgeLine0Enable = false;
-            this.longStrip1.transparentInfo1.JudgeLine1 = 0F;
-            this.longStrip1.transparentInfo1.JudgeLine1Enable = false;
-            this.longStrip1.transparentInfo1.JudgeLine2 = 0F;
-            this.longStrip1.transparentInfo1.JudgeLine2Enable = false;
+            this.longStrip1.JudgeLine0 = 0F;
+            this.longStrip1.JudgeLine0Enable = false;
+            this.longStrip1.JudgeLine1 = 0F;
+            this.longStrip1.JudgeLine1Enable = false;
+            this.longStrip1.JudgeLine2 = 0F;
+            this.longStrip1.JudgeLine2Enable = false;
             this.longStrip1.Location = new System.Drawing.Point(0, 0);
             this.longStrip1.Name = "longStrip1";
             this.longStrip1.Size = new System.Drawing.Size(284, 261);
             this.longStrip1.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // LongStripForm
             // 
@@ -60,6 +67,7 @@
         
         #endregion
 
-        public LongTrip longStrip1;
+        public LongStrip longStrip1;
+        private System.Windows.Forms.Timer timer1;
     }
 }
