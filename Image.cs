@@ -1435,11 +1435,19 @@ namespace ZYCControl
         {
             series a = new series();
             a.Count = count;
-            a.x = x.ToList().GetRange(index, count).ToArray(); 
-            a.y = y.ToList().GetRange(index, count).ToArray();
-            a.s = s.ToList().GetRange(index, count).ToArray();
+            a.x = GetRange(x,index,count); 
+            a.y = GetRange(y, index, count);
+            //a.s = s.ToList().GetRange(index, count).ToArray();
             a.sColor = sColor;
             return a;
+        }
+
+        private float[] GetRange(float[] a, int index, int count)
+        {
+            float[] res = new float[count];
+            for (int i = 0; i < count; i++)
+                res[i] = a[i + index];
+            return res;
         }
     }
 
@@ -1798,9 +1806,7 @@ namespace ZYCControl
                     tmp.Add(nsp[i].Y);
                 }
                 
-            }
-
-
+            }            
         }
 
         /// <summary>
@@ -2061,6 +2067,7 @@ namespace ZYCControl
             pb = SetPixelData(diff_b, out ing_b);
             for (int i = 0; i < pa.Count; i++)
             {
+                //Clear(pa[i]);
                 DrawSeries(pa[i], ing_a[i]);
                 DrawSeries(pb[i], ing_b[i]);
             }
@@ -2083,22 +2090,20 @@ namespace ZYCControl
                 if (ay[i] != by[i])
                     diff.Add(i);
 
-            List<int[]>[] diff_se = ListContinuous(diff);
+            List<int[]> diff_se = ListContinuous(diff, n);
             if (diff_se == null)
                 return null;
             List<series> diff_a = new List<series>(n);
             List<series> diff_b = new List<series>(n);
 
-            int m = diff_se[0].Count;
+            int m = diff_se.Count;
             for (int i = 0; i < m; i++)
             {
-                int index = diff_se[0][i][0];
-                int count = diff_se[0][i][1] - diff_se[0][i][0];
+                int index = diff_se[i][0];
+                int count = diff_se[i][1] - diff_se[i][0] + 1;
                 diff_a.Add(a.GetRange(index, count));
                 diff_a.Last().sColor = SystemColors.Control;
-
-                index = diff_se[1][i][0];
-                count = diff_se[1][i][1] - diff_se[1][i][0];
+                
                 diff_b.Add(b.GetRange(index, count));
             }
 
@@ -2109,20 +2114,22 @@ namespace ZYCControl
         /// 获取所有的变化索引的起点末点
         /// </summary>
         /// <param name="a"></param>
+        /// <param name="m">原series的长度</param>
         /// <returns></returns>
-        private List<int[]>[] ListContinuous(List<int> a)
+        private List<int[]> ListContinuous(List<int> a, int m)
         {
             int n = a.Count;
             if (n == 0)
                 return null;
             List<int[]> res0 = new List<int[]>(n);
-            List<int[]> res1 = new List<int[]>(n);
 
+            ///一个像素对应的数据长度
+            int morew = (rawData[0].Count / ControlWidth);
+            morew = morew == 0 ? 1 : morew;
             if (n == 1)
             {
-                res0.Add(GetCloseIndex(new int[] { a[0], a[0] }, n));
-                res1.Add(new int[] { a[0], a[0] });
-                return new List<int[]>[] { res0,res1};
+                res0.Add(GetCloseIndex(new int[] { a[0], a[0] }, m, morew));
+                return res0;
             }
             int k0 = 0, k1 = 1, k2 = 0;
             while (k1 < n)
@@ -2134,8 +2141,7 @@ namespace ZYCControl
                 }
                 else
                 {
-                    res0.Add(GetCloseIndex(new int[] { a[k0], a[k1] }, n));
-                    res1.Add(new int[] { a[k0], a[k1] });
+                    res0.Add(GetCloseIndex(new int[] { a[k0], a[k1] }, m, morew));
 
                     k0 = k1 + 1;
                     k2 = k1 + 2;
@@ -2147,9 +2153,8 @@ namespace ZYCControl
                             k1 = k0;
                 }
             }
-            res0.Add(GetCloseIndex(new int[] { a[k0], a[n-1] }, n));
-            res1.Add(new int[] { a[k0], a[n-1] });
-            return new List<int[]>[] { res0, res1 };
+            res0.Add(GetCloseIndex(new int[] { a[k0], a[n-1] }, m, morew));
+            return res0;
         }
 
         /// <summary>
@@ -2157,11 +2162,12 @@ namespace ZYCControl
         /// </summary>
         /// <param name="a"></param>
         /// <param name="count"></param>
+        /// <param name="moreW">非常重要的参数，必须至少一个像素对应的宽度，否则导致留下虚线痕迹</param>
         /// <returns></returns>
-        private int[] GetCloseIndex(int[] a, int count)
+        private int[] GetCloseIndex(int[] a, int count, int moreW)
         {
-            int s = a[0] == 0 ? 0 : a[0] - 1;
-            int e = a[1] == count - 1 ? count - 1 : a[1] + 1;
+            int s = a[0] < moreW ? 0 : a[0] - moreW;
+            int e = a[1] > count - moreW - 2 ? count - 1 : a[1] + moreW;
             return new int[] { s, e };
         }
 
@@ -2177,8 +2183,7 @@ namespace ZYCControl
             }
             return b;
         }
-
-
+        
     }
     
 

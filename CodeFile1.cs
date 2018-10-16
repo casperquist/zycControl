@@ -8,10 +8,15 @@ namespace ZYCControl
     {
         static void Main(string[] args)
         {
-            
-            
+            LsTest(false);
+            LsTest(false);
+            LsTest(false);
+            LsTest(false);
+            LsTest(false);
+            LsTest(false);
+            LsTest(false);
 
-            LsTest();
+            LsTest(true);
             //float[] res = new float[1024*1024];
             //int tmp = 0;
             //for (int i = 0; i < 1024; i++)
@@ -68,9 +73,9 @@ namespace ZYCControl
             //p2.ShowDialog();
             }
             
-        static void LsTest()
+        static void LsTest(bool last)
         {
-            int num = 63610;
+            int num = 36000;
             float[] x = new float[num];
             float[] y = new float[num];
             float[] z = new float[num];
@@ -91,8 +96,12 @@ namespace ZYCControl
             LongStripForm lsf = new LongStripForm();
             lsf.longStrip1.JudgeLine0Enable = true;
             lsf.longStrip1.JudgeLine0 = 0.5f;
-            lsf.FigureInitial(t, false, new float[4] { x[0], x[num-1], y[0], y[num - 1] });
-            lsf.ShowDialog();
+            ///动态画图时，必须fixRange
+            lsf.FigureInitial(t, true, new float[4] { x[0], x[num-1], -1, 1 });
+            if (!last)
+                lsf.Show();
+            else
+                lsf.ShowDialog();
         }
 
         static void plot2d()
@@ -113,6 +122,8 @@ namespace ZYCControl
             List<series> t = new List<series>();
             t.Add(a);
             t.Add(b);
+            
+            
             p2.FigureInitial(t, false, new float[4] { -5, 500, -1, 100 });
 
 

@@ -263,7 +263,7 @@ namespace ZYCControl
             if (ima != null)
                 graphics.DrawImage(ima.bmp, 0, 0);
             DrawJudgeLines(graphics);
-            GC.Collect();
+            //GC.Collect();
         }
 
         private void ClearToolTip()
@@ -279,6 +279,7 @@ namespace ZYCControl
             if ((Keys.Control & Control.ModifierKeys) == Keys.Control & MouseIsInControl)
             {
                 DrawTip(PointToClient(MousePosition).X);
+                
             }
             
         }
