@@ -124,6 +124,12 @@
     <Compile Include="RulerBar.Designer.cs">
       <DependentUpon>RulerBar.cs</DependentUpon>
     </Compile>
+    <Compile Include="RulerTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RulerTest.Designer.cs">
+      <DependentUpon>RulerTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="TransparentInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,6 +166,12 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulerBar.resx">
+      <DependentUpon>RulerBar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RulerTest.resx">
+      <DependentUpon>RulerTest.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TransparentInfo.resx">
       <DependentUpon>TransparentInfo.cs</DependentUpon>

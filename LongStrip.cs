@@ -109,7 +109,7 @@ namespace ZYCControl
 
         private void Plot2D_MouseMove(object sender, MouseEventArgs e)
         {
-            Invalidate();
+            //Invalidate();
             Point p = new Point(e.X, e.Y);
             JudgeMouseIsInControl(p);
 

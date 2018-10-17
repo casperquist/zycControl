@@ -10,8 +10,6 @@ using System.Threading.Tasks;
 
 namespace ZYCControl
 {
-    
-    
     /// <summary>
     /// 输入数据参数
     /// </summary>
@@ -2184,8 +2182,5 @@ namespace ZYCControl
             return b;
         }
         
-    }
-    
-
-    
+    }   
 }
