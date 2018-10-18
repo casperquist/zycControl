@@ -9,6 +9,7 @@ namespace ZYCControl
         static void Main(string[] args)
         {
             LsTest(true);
+            //rulerTest();
         }
             
         static void LsTest(bool last)
@@ -75,4 +76,7 @@ namespace ZYCControl
         }
         
     }
+
+
 }
+

@@ -37,6 +37,10 @@
             this.BackColor = System.Drawing.Color.Transparent;
             this.Name = "RulerBar";
             this.Size = new System.Drawing.Size(85, 308);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RublerBar_MouseDoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.RublerBar_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RublerBar_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.RublerBar_MouseUp);
             this.ResumeLayout(false);
 
         }

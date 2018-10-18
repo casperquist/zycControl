@@ -17,8 +17,8 @@ namespace ZYCControl
             
             InitializeComponent();
             rulerBar1.HoriBar = true;
-            rulerBar1.startValue = 43727f;
-            rulerBar1.endValue = 437292f;
+            rulerBar1.startValue = 0f;
+            rulerBar1.endValue = 100f;
             rulerBar1.minScalePN = 1;
             rulerBar1.maxScalePN = 10;
             rulerBar1.Draw();

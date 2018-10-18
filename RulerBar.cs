@@ -10,11 +10,14 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
+    public delegate void RangeChangedHandleEvent();
+
     public partial class RulerBar : UserControl
     {
         public RulerBar()
         {            
             InitializeComponent();
+            
         }
 
         #region 全局量
@@ -37,9 +40,9 @@ namespace ZYCControl
 
         private Bitmap bmp;
         /// <summary>
-        /// 缩放之后的起始和结束值
+        /// 缩放最初的原始起始和结束值
         /// </summary>
-        private float currentSV, currentEV;
+        private float SV0, EV0;
         private Graphics g;
         /// <summary>
         /// （Tall线）像素间隔
@@ -70,6 +73,18 @@ namespace ZYCControl
         /// </summary>
         private string infoStringFormat;
         private bool MouseIsInControl;
+        /// <summary>
+        /// 鼠标处于在控件内处于拖拽状态
+        /// </summary>
+        private bool MouseIsDown;
+        /// <summary>
+        /// 鼠标down时的位置
+        /// </summary>
+        private Point mousePos;
+        /// <summary>
+        /// 鼠标down时的startValue和endValue
+        /// </summary>
+        private float sv1, ev1;
 #endregion
 
         #region Core
@@ -78,6 +93,11 @@ namespace ZYCControl
         {
             if (bmp != null)
                 bmp.Dispose();
+            else
+            {
+                EV0 = startValue;
+                EV0 = endValue;
+            }
             bmp = new Bitmap(Width, Height);
             g = Graphics.FromImage(bmp);
             float diffV = endValue - startValue;
@@ -94,6 +114,7 @@ namespace ZYCControl
             AdaptGap(minGap, maxGap, diffP);
             CalculateScaleList();
             DrawScale(10, 7, 5);
+            Refresh();
         }        
 
         /// <summary>
@@ -209,7 +230,7 @@ namespace ZYCControl
         private void DrawScale(int TallLength, int MiddleLength, int ShortLength)
         {
             Pen pen = new Pen(Color.Black);
-            Font font = new Font("宋体", 8, FontStyle.Regular);
+            Font font = new Font("Times New Roman", 8, FontStyle.Regular);
             int n = ScalePixelTall.Count;
 
             if (HoriBar)
@@ -260,9 +281,7 @@ namespace ZYCControl
             if (n == 0)
                 infoStringFormat = "{0:g}";
             if (n < 0)
-                infoStringFormat = "{0:e" + (-n).ToString() + "}";
-
-
+                infoStringFormat = "{0:e2}" ;
         }
 
         /// <summary>
@@ -297,39 +316,36 @@ namespace ZYCControl
         #endregion
 
         #region Control
+        public event RangeChangedHandleEvent RangeChanged;
+
         private void RublerBar_MouseMove(object sender, MouseEventArgs e)
-        {
-            Invalidate();
+        {            
             Point p = new Point(e.X, e.Y);
             JudgeMouseIsInControl(p);
-            
+
+            if (MouseIsDown)
+                RestRulerValue();
         }
 
         private void RublerBar_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            
+            UpdataValue(SV0, EV0);
         }
 
         private void RublerBar_MouseDown(object sender, MouseEventArgs e)
         {
-
             if (MouseIsInControl)
             {
-                /*if (!AltIsDown)
-                {
-                    zoomRegion = new DrawZoomRegion();
-                    zoomRegion.p0 = new Point(e.X, 0);
-                }*/
-            }
+                mousePos = MousePosition;
+                sv1 = startValue;
+                ev1 = endValue;
+                MouseIsDown = true;
+            }            
         }
 
         private void RublerBar_MouseUp(object sender, MouseEventArgs e)
         {
-            /*if (zoomRegion != null & AltIsDown == false)
-            {
-                
-
-            }*/
+            MouseIsDown = false;
         }
 
         private void RublerBar_SizeChanged(object sender, EventArgs e)
@@ -341,11 +357,7 @@ namespace ZYCControl
         {
             Point np = this.PointToScreen(p);
             Rectangle rc = RectangleToScreen(ClientRectangle);
-
-            //Console.WriteLine(np.X.ToString() + " " + np.Y.ToString());
-            //Console.WriteLine(rc.X.ToString() + " " + rc.Y.ToString());
-            //Console.WriteLine((rc.X+rc.Width).ToString() + " " + (rc.Y+rc.Height).ToString());
-
+                        
             if (rc.Contains(np))
             {
                 //鼠标形态改变
@@ -354,6 +366,27 @@ namespace ZYCControl
             }
             else
                 MouseIsInControl = false;
+        }
+
+        private void RestRulerValue()
+        {
+            int offset;
+            if (HoriBar)
+                offset = -MousePosition.X + mousePos.X;
+            else
+                offset = MousePosition.Y - mousePos.Y;
+            float offV = offset * k;
+            Console.WriteLine(offV);
+
+            UpdataValue(sv1 + offV, ev1 + offV);
+            RangeChanged?.Invoke();
+        }
+
+        private void UpdataValue(float startV, float endV)
+        {
+            startValue = startV;
+            endValue = endV;
+            Draw();
         }
 
         protected override void OnPaint(PaintEventArgs e)

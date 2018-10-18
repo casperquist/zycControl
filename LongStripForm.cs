@@ -24,12 +24,21 @@ namespace ZYCControl
 
         public void FigureInitial(List<series> a, bool fixRange, float[] range)
         {
-
-
             longStrip1.NewImage(a, fixRange, range);
+
+            rulerBarH.HoriBar = true;
+            rulerBarH.startValue = a[0].x.Min();
+            rulerBarH.endValue = a[0].x.Max();
+            rulerBarH.Draw();
+
+            rulerBarV.HoriBar = false;
+            rulerBarV.startValue = -1f;
+            rulerBarV.endValue = 1f;
+            rulerBarV.Draw();
+
             num = 0;
             timer1.Interval = 10;
-            timer1.Start();
+            //timer1.Start();
 
         }
 
@@ -69,6 +78,25 @@ namespace ZYCControl
                 b.Add(tmp);
             }
             return b;
+        }
+
+        private void LongStripForm_SizeChanged(object sender, EventArgs e)
+        {
+            longStrip1.Location = new Point(30, 0);
+            longStrip1.Width = ClientSize.Width - 30;
+            longStrip1.Height = ClientSize.Height - 30;
+
+            rulerBarV.Height = ClientSize.Height - 30;;
+
+            rulerBarH.Width = ClientSize.Width - 30;
+            rulerBarH.Location = new Point(30, longStrip1.Height);
+
+            if (rulerBarH.Width != 0 &
+                rulerBarV.Height != 0 )
+            {
+                rulerBarH.Draw();
+                rulerBarV.Draw();
+            }
         }
     }
 }

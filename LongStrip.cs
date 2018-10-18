@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
+    public delegate void RangeChangedHandleEvent();
     public partial class LongStrip : UserControl
     {
         public LongStrip()
@@ -58,6 +59,8 @@ namespace ZYCControl
 
         private float _JudgeLine2;
         public float JudgeLine2 { get { return _JudgeLine2; } set { _JudgeLine2 = value; } }
+                
+        public event RangeChangedHandleEvent RangeChange;
         
         /// <summary>
         /// 创建新的Image,并生成位图
@@ -250,6 +253,9 @@ namespace ZYCControl
                     wt = ima.DisplayZoneMax[0] - ima.DisplayZoneMin[0];
                     ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
                 }
+
+                RangeChange?.Invoke();
+
                 firstZoom = false;
                 ima.Refresh(true);
                 Invalidate();
