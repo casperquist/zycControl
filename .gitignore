@@ -58,3 +58,7 @@ dkms.conf
 *.cache
 obj/
 *.vspx
+obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+obj/Debug/ZYCControl.csproj.CoreCompileInputs.cache
+obj/Debug/ZYCControl.csproj.FileListAbsolute.txt
+obj/Debug/ZYCControl.csproj.GenerateResource.Cache

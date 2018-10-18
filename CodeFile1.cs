@@ -71,8 +71,8 @@ namespace ZYCControl
 
         static void rulerTest()
         {
-            RulerTest rt = new RulerTest();
-            rt.ShowDialog();
+            //RulerTest rt = new RulerTest();
+            //rt.ShowDialog();
         }
         
     }

@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.rulerBarH = new ZYCControl.RulerBar();
             this.longStrip1 = new ZYCControl.LongStrip();
-            this.rulerBarV = new ZYCControl.RulerBar();
+            this.rulerBarH = new ZYCControl.RulerBar(longStrip1);
+            this.rulerBarV = new ZYCControl.RulerBar(longStrip1);
             this.SuspendLayout();
             // 
             // timer1
@@ -44,7 +44,7 @@
             this.rulerBarH.BackColor = System.Drawing.Color.Transparent;
             this.rulerBarH.Location = new System.Drawing.Point(30, 330);
             this.rulerBarH.Name = "rulerBarH";
-            this.rulerBarH.Size = new System.Drawing.Size(508, 30);
+            this.rulerBarH.Size = new System.Drawing.Size(509, 30);
             this.rulerBarH.TabIndex = 2;
             // 
             // longStrip1

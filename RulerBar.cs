@@ -10,14 +10,15 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
-    public delegate void RangeChangedHandleEvent();
 
     public partial class RulerBar : UserControl
     {
-        public RulerBar()
+        LongStrip ls;
+        public RulerBar(LongStrip ls1)
         {            
             InitializeComponent();
-            
+            this.ls = ls1;
+            ls.RangeChange += new RangeChangedHandleEvent(AnswerEvent);
         }
 
         #region 全局量
@@ -324,7 +325,7 @@ namespace ZYCControl
             JudgeMouseIsInControl(p);
 
             if (MouseIsDown)
-                RestRulerValue();
+                ResetRulerValue();
         }
 
         private void RublerBar_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -368,7 +369,7 @@ namespace ZYCControl
                 MouseIsInControl = false;
         }
 
-        private void RestRulerValue()
+        private void ResetRulerValue()
         {
             int offset;
             if (HoriBar)
@@ -379,7 +380,6 @@ namespace ZYCControl
             Console.WriteLine(offV);
 
             UpdataValue(sv1 + offV, ev1 + offV);
-            RangeChanged?.Invoke();
         }
 
         private void UpdataValue(float startV, float endV)
@@ -387,6 +387,14 @@ namespace ZYCControl
             startValue = startV;
             endValue = endV;
             Draw();
+        }
+
+        private void AnswerEvent(float[] range)
+        {
+            if (HoriBar)
+                UpdataValue(range[0], range[1]);
+            else
+                UpdataValue(range[2], range[3]);
         }
 
         protected override void OnPaint(PaintEventArgs e)

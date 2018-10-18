@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
-    public delegate void RangeChangedHandleEvent();
+    public delegate void RangeChangedHandleEvent(float[] range);
     public partial class LongStrip : UserControl
     {
         public LongStrip()
@@ -132,6 +132,8 @@ namespace ZYCControl
             ima.DisplayZoneMax = new float[2] { 1, 1 };
             ima.Refresh(true);
             firstZoom = true;
+
+            RangeChange?.Invoke(new float[] { ima.x0, ima.x1, ima.y0, ima.y1 });
         }
 
         private void Plot2D_MouseDown(object sender, MouseEventArgs e)
@@ -245,7 +247,6 @@ namespace ZYCControl
                 }
                 else
                 {
-
                     ima.DisplayZoneMax[0] = (zoomRectangle.X + zoomRectangle.Width) / (float)Width * wt + ima.DisplayZoneMin[0];
                     ima.DisplayZoneMax[1] = (zoomRectangle.Y + zoomRectangle.Height) / (float)Height * ht + ima.DisplayZoneMin[1];
                     ima.DisplayZoneMin[0] += zoomRectangle.X / (float)Width * wt;
@@ -254,7 +255,11 @@ namespace ZYCControl
                     ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
                 }
 
-                RangeChange?.Invoke();
+                RangeChange?.Invoke(new float[] {
+                    ima.x0 + ima.xw * ima.DisplayZoneMin[0],
+                    ima.x0 + ima.xw * ima.DisplayZoneMax[0],
+                    ima.y0 + ima.yh * ima.DisplayZoneMin[1],
+                    ima.y0 + ima.yh * ima.DisplayZoneMax[1]});
 
                 firstZoom = false;
                 ima.Refresh(true);

@@ -89,7 +89,7 @@ namespace ZYCControl
             rulerBarV.Height = ClientSize.Height - 30;;
 
             rulerBarH.Width = ClientSize.Width - 30;
-            rulerBarH.Location = new Point(30, longStrip1.Height);
+            rulerBarH.Location = new Point(30, longStrip1.Height+5);
 
             if (rulerBarH.Width != 0 &
                 rulerBarV.Height != 0 )
