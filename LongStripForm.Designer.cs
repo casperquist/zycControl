@@ -31,8 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.longStrip1 = new ZYCControl.LongStrip();
-            this.rulerBarH = new ZYCControl.RulerBar(longStrip1);
-            this.rulerBarV = new ZYCControl.RulerBar(longStrip1);
+            this.rulerBarH = new ZYCControl.RulerBar();
+            this.rulerBarV = new ZYCControl.RulerBar();
             this.SuspendLayout();
             // 
             // timer1

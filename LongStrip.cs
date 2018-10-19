@@ -405,6 +405,27 @@ namespace ZYCControl
             for (int i = 0; i < rec.Count(); i++)
                 result |= rec[i].Contains(a);
             return result;
-        } 
+        }
+
+        /// <summary>
+        /// 对显示范围变化的响应
+        /// </summary>
+        /// <param name="range">RulerBar.StartV,RulerBar.EndV，0为H，1为v</param>
+        public void ResponeEvent(float[] range)
+        {
+            if (range[2] < 0.1)///HoriBar
+            {
+                ima.DisplayZoneMin[0] = (range[0] - ima.x0) / ima.xw;
+                ima.DisplayZoneMax[0] = (range[1] - ima.x0) / ima.xw;
+            }
+            else
+            {
+                ima.DisplayZoneMin[1] = (range[0] - ima.y0) / ima.yh;
+                ima.DisplayZoneMax[1] = (range[1] - ima.y0) / ima.yh;
+            }
+            firstZoom = false;
+            ima.Refresh(true);
+            Invalidate();
+        }
     }
 }

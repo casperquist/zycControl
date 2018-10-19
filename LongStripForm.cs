@@ -20,6 +20,8 @@ namespace ZYCControl
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
             SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲  
             InitializeComponent();
+
+            EventAndRespone();
         }
 
         public void FigureInitial(List<series> a, bool fixRange, float[] range)
@@ -97,6 +99,13 @@ namespace ZYCControl
                 rulerBarH.Draw();
                 rulerBarV.Draw();
             }
+        }
+
+        private void EventAndRespone()
+        {
+            longStrip1.RangeChange += new RangeChangedHandleEvent(rulerBarH.ResponeEvent);
+            longStrip1.RangeChange += new RangeChangedHandleEvent(rulerBarV.ResponeEvent);
+            rulerBarH.RangeChanged += new RangeChangedHandleEvent(longStrip1.ResponeEvent);
         }
     }
 }

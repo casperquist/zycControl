@@ -13,12 +13,9 @@ namespace ZYCControl
 
     public partial class RulerBar : UserControl
     {
-        LongStrip ls;
-        public RulerBar(LongStrip ls1)
+        public RulerBar()
         {            
             InitializeComponent();
-            this.ls = ls1;
-            ls.RangeChange += new RangeChangedHandleEvent(AnswerEvent);
         }
 
         #region 全局量
@@ -331,6 +328,7 @@ namespace ZYCControl
         private void RublerBar_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             UpdataValue(SV0, EV0);
+            RangeChanged?.Invoke(new float[] { startValue, endValue, HoriBar ? 0 : 1 });
         }
 
         private void RublerBar_MouseDown(object sender, MouseEventArgs e)
@@ -380,6 +378,7 @@ namespace ZYCControl
             Console.WriteLine(offV);
 
             UpdataValue(sv1 + offV, ev1 + offV);
+            RangeChanged?.Invoke(new float[] { startValue, endValue, HoriBar?0:1});
         }
 
         private void UpdataValue(float startV, float endV)
@@ -389,7 +388,7 @@ namespace ZYCControl
             Draw();
         }
 
-        private void AnswerEvent(float[] range)
+        public void ResponeEvent(float[] range)
         {
             if (HoriBar)
                 UpdataValue(range[0], range[1]);
