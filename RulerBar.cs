@@ -93,7 +93,7 @@ namespace ZYCControl
                 bmp.Dispose();
             else
             {
-                EV0 = startValue;
+                SV0 = startValue;
                 EV0 = endValue;
             }
             bmp = new Bitmap(Width, Height);
@@ -375,7 +375,7 @@ namespace ZYCControl
             else
                 offset = MousePosition.Y - mousePos.Y;
             float offV = offset * k;
-            Console.WriteLine(offV);
+            //Console.WriteLine(offV);
 
             UpdataValue(sv1 + offV, ev1 + offV);
             RangeChanged?.Invoke(new float[] { startValue, endValue, HoriBar?0:1});

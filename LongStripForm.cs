@@ -34,8 +34,8 @@ namespace ZYCControl
             rulerBarH.Draw();
 
             rulerBarV.HoriBar = false;
-            rulerBarV.startValue = -1f;
-            rulerBarV.endValue = 1f;
+            rulerBarV.startValue = longStrip1.ima.y0;
+            rulerBarV.endValue = longStrip1.ima.y1;
             rulerBarV.Draw();
 
             num = 0;
@@ -91,7 +91,7 @@ namespace ZYCControl
             rulerBarV.Height = ClientSize.Height - 30;;
 
             rulerBarH.Width = ClientSize.Width - 30;
-            rulerBarH.Location = new Point(30, longStrip1.Height+5);
+            rulerBarH.Location = new Point(30, longStrip1.Height);
 
             if (rulerBarH.Width != 0 &
                 rulerBarV.Height != 0 )

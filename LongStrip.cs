@@ -41,6 +41,10 @@ namespace ZYCControl
         /// </summary>
         public string xStringFormat, ystringFormat;
         private Graphics g ;
+        /// <summary>
+        /// 是否处于输出信息状态
+        /// </summary>
+        private bool DrawInfoTip;
 
         private bool _JudgeLine0Enable;
         public bool JudgeLine0Enable { get { return _JudgeLine0Enable; } set { _JudgeLine0Enable = value; } }
@@ -112,7 +116,8 @@ namespace ZYCControl
 
         private void Plot2D_MouseMove(object sender, MouseEventArgs e)
         {
-            //Invalidate();
+            if (DrawInfoTip)
+                Refresh();
             Point p = new Point(e.X, e.Y);
             JudgeMouseIsInControl(p);
 
@@ -221,7 +226,7 @@ namespace ZYCControl
 
             if (zoomRegion.pChanged)
             {
-                Invalidate();
+                Refresh();
                 zoomRegion.Draw(true);
             }
         }
@@ -290,8 +295,10 @@ namespace ZYCControl
             if ((Keys.Control & Control.ModifierKeys) == Keys.Control & MouseIsInControl)
             {
                 DrawTip(PointToClient(MousePosition).X);
-                
+                DrawInfoTip = true;
             }
+            else
+                DrawInfoTip = false;
             
         }
 

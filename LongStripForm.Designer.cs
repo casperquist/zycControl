@@ -44,7 +44,7 @@
             this.rulerBarH.BackColor = System.Drawing.Color.Transparent;
             this.rulerBarH.Location = new System.Drawing.Point(30, 330);
             this.rulerBarH.Name = "rulerBarH";
-            this.rulerBarH.Size = new System.Drawing.Size(509, 30);
+            this.rulerBarH.Size = new System.Drawing.Size(508, 30);
             this.rulerBarH.TabIndex = 2;
             // 
             // longStrip1
