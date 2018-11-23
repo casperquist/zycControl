@@ -1490,7 +1490,7 @@ namespace ZYCControl
         /// 换算的显示宽度和高度(像素)
         /// ，大于等于ControlWidth，ControlHeight
         /// </summary>
-        private float width0,height0;
+        public float width0,height0;
         /// <summary>
         /// x1-x0;y1-y0
         /// </summary>

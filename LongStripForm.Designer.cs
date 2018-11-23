@@ -30,9 +30,9 @@
         {
             this.components = new System.ComponentModel.Container();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.longStrip1 = new ZYCControl.LongStrip();
             this.rulerBarH = new ZYCControl.RulerBar();
             this.rulerBarV = new ZYCControl.RulerBar();
+            this.longStrip1 = new ZYCControl.LongStrip();
             this.SuspendLayout();
             // 
             // timer1
@@ -46,6 +46,16 @@
             this.rulerBarH.Name = "rulerBarH";
             this.rulerBarH.Size = new System.Drawing.Size(508, 30);
             this.rulerBarH.TabIndex = 2;
+            this.rulerBarH.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LongStripForm_MouseMove);
+            // 
+            // rulerBarV
+            // 
+            this.rulerBarV.BackColor = System.Drawing.Color.Transparent;
+            this.rulerBarV.Location = new System.Drawing.Point(0, 0);
+            this.rulerBarV.Name = "rulerBarV";
+            this.rulerBarV.Size = new System.Drawing.Size(30, 330);
+            this.rulerBarV.TabIndex = 1;
+            this.rulerBarV.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LongStripForm_MouseMove);
             // 
             // longStrip1
             // 
@@ -60,19 +70,13 @@
             this.longStrip1.Name = "longStrip1";
             this.longStrip1.Size = new System.Drawing.Size(508, 330);
             this.longStrip1.TabIndex = 0;
-            // 
-            // rulerBarV
-            // 
-            this.rulerBarV.BackColor = System.Drawing.Color.Transparent;
-            this.rulerBarV.Location = new System.Drawing.Point(0, 0);
-            this.rulerBarV.Name = "rulerBarV";
-            this.rulerBarV.Size = new System.Drawing.Size(30, 330);
-            this.rulerBarV.TabIndex = 1;
+            this.longStrip1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LongStripForm_MouseMove);
             // 
             // LongStripForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(538, 360);
             this.Controls.Add(this.rulerBarH);
             this.Controls.Add(this.rulerBarV);
@@ -81,6 +85,7 @@
             this.Name = "LongStripForm";
             this.Text = "LongStripForm";
             this.SizeChanged += new System.EventHandler(this.LongStripForm_SizeChanged);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LongStripForm_MouseMove);
             this.ResumeLayout(false);
 
         }

@@ -34,6 +34,7 @@ namespace ZYCControl
         public float zeroRatio;
         private bool firstZoom;
         private float wt, ht;
+               
 
         public FigurCommentUT()
         {

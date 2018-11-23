@@ -106,6 +106,26 @@ namespace ZYCControl
             longStrip1.RangeChange += new RangeChangedHandleEvent(rulerBarH.ResponeEvent);
             longStrip1.RangeChange += new RangeChangedHandleEvent(rulerBarV.ResponeEvent);
             rulerBarH.RangeChanged += new RangeChangedHandleEvent(longStrip1.ResponeEvent);
+            rulerBarV.RangeChanged += new RangeChangedHandleEvent(longStrip1.ResponeEvent);
+
+        }
+
+        private void LongStripForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point np = this.PointToScreen(e.Location);
+            Rectangle rc_ls = RectangleToScreen(longStrip1.ClientRectangle);
+            Rectangle rc_rh = RectangleToScreen(rulerBarH.ClientRectangle);
+            Rectangle rc_rv = RectangleToScreen(rulerBarV.ClientRectangle);
+
+            if (rc_rh.Contains(np))
+                rulerBarH.Select();
+
+            if (rc_rv.Contains(np))
+                rulerBarV.Select();
+
+            if (rc_ls.Contains(np))
+                longStrip1.Select();
+
         }
     }
 }

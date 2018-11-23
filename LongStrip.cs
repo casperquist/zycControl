@@ -39,12 +39,13 @@ namespace ZYCControl
         /// <summary>
         /// 输出信息的数据格式
         /// </summary>
-        public string xStringFormat, ystringFormat;
+        public string xStringFormat, yStringFormat;
         private Graphics g ;
         /// <summary>
         /// 是否处于输出信息状态
         /// </summary>
         private bool DrawInfoTip;
+        private Point p0, p1;
 
         private bool _JudgeLine0Enable;
         public bool JudgeLine0Enable { get { return _JudgeLine0Enable; } set { _JudgeLine0Enable = value; } }
@@ -110,8 +111,8 @@ namespace ZYCControl
                 yUnit = "";
             if (xStringFormat == null)
                 xStringFormat = "{0:0.0}";
-            if (ystringFormat == null)
-                ystringFormat = "{0:0.00}";
+            if (yStringFormat == null)
+                yStringFormat = "{0:0.00}";
         }
 
         private void Plot2D_MouseMove(object sender, MouseEventArgs e)
@@ -124,8 +125,26 @@ namespace ZYCControl
             //画阴影区域
             if (zoomRegion != null)
             {
-                DrawRectangle(new Point(e.X,Width));
-            }            
+                p1 = e.Location;
+                if (Math.Abs(p1.X-p0.X) < 20)
+                {
+                    zoomRegion.p0 = new Point(0, p0.Y);
+                    DrawRectangle(new Point(Width, p1.Y));
+                }
+                else
+                {
+                    if (Math.Abs(p1.Y - p0.Y) < 20)
+                    {
+                        zoomRegion.p0 = new Point(p0.X, 0);
+                        DrawRectangle(new Point(p1.X, Height));
+                    }
+                    else
+                    {
+                        zoomRegion.p0 = p0;
+                        DrawRectangle(p1);
+                    }
+                }
+            }
         }
 
         private void Plot2D_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -148,8 +167,9 @@ namespace ZYCControl
             {
                 if (!AltIsDown)
                 {
+                    p0 = e.Location;
                     zoomRegion = new DrawZoomRegion();
-                    zoomRegion.p0 = new Point(e.X, 0);
+                    zoomRegion.p0 = p0;
                 }
             }
         }
@@ -263,8 +283,8 @@ namespace ZYCControl
                 RangeChange?.Invoke(new float[] {
                     ima.x0 + ima.xw * ima.DisplayZoneMin[0],
                     ima.x0 + ima.xw * ima.DisplayZoneMax[0],
-                    ima.y0 + ima.yh * ima.DisplayZoneMin[1],
-                    ima.y0 + ima.yh * ima.DisplayZoneMax[1]});
+                    ima.y1 - ima.yh * ima.DisplayZoneMax[1],
+                    ima.y1 - ima.yh * ima.DisplayZoneMin[1]});
 
                 firstZoom = false;
                 ima.Refresh(true);
@@ -321,11 +341,11 @@ namespace ZYCControl
         {
             if (enable)
             {
-                int y = (int)((ima.y1 - value) / ima.yh * ima.ControlHeight);
+                int y = (int)((ima.yh*(1-ima.DisplayZoneMin[1])+ima.y0 - value) / ima.yh * ima.ControlHeight);
                 if (y >= 0 & y <= ima.ControlHeight)
                 {
                     g.DrawLine(pen, new Point(0, y), new Point(ima.ControlWidth, y));
-                    g.DrawString(string.Format(ystringFormat, value), infoFont, 
+                    g.DrawString(string.Format(yStringFormat, value), infoFont, 
                         new SolidBrush(Color.Red), new Point(0, y));
                 }
             }
@@ -380,7 +400,7 @@ namespace ZYCControl
                 g.FillEllipse(new SolidBrush(color[i]), new Rectangle(px- DrawPointSize, py[i]-DrawPointSize, 
                     2* DrawPointSize+1, 2* DrawPointSize+1));                
                 string infos = xName + "=" + string.Format(xStringFormat, info[i][0]) + xUnit
-                    + "  " + yName + "=" + string.Format(xStringFormat, info[i][1]) + yUnit;
+                    + "  " + yName + "=" + string.Format(yStringFormat, info[i][1]) + yUnit;
                 Point point = new Point(px + DrawPointSize, py[i] + DrawPointSize);
                 SizeF sizeF = g.MeasureString(infos, infoFont);
                 Rectangle rectangle = new Rectangle(point.X,point.Y, (int)sizeF.Width+DrawPointSize, (int)sizeF.Height+DrawPointSize);
@@ -427,8 +447,8 @@ namespace ZYCControl
             }
             else
             {
-                ima.DisplayZoneMin[1] = (range[0] - ima.y0) / ima.yh;
-                ima.DisplayZoneMax[1] = (range[1] - ima.y0) / ima.yh;
+                ima.DisplayZoneMin[1] = -(range[1] - ima.y1) / ima.yh;
+                ima.DisplayZoneMax[1] = -(range[0] - ima.y1) / ima.yh;
             }
             firstZoom = false;
             ima.Refresh(true);

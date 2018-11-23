@@ -40,13 +40,13 @@
             this.figure1.Size = new System.Drawing.Size(176, 169);
             this.figure1.TabIndex = 0;
             // 
-            // Form
+            // FigureForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(176, 169);
             this.Controls.Add(this.figure1);
-            this.Name = "Form";
+            this.Name = "FigureForm";
             this.Text = "Form3";
             this.ResumeLayout(false);
 
