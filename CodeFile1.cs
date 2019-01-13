@@ -1,6 +1,7 @@
 ﻿using System.Windows.Forms;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace ZYCControl
 {
@@ -8,25 +9,37 @@ namespace ZYCControl
     {
         static void Main(string[] args)
         {
-            LsTest(true);
-            //rulerTest();
+            ToolTest tt = new ToolTest();
+            tt.StartPosition = FormStartPosition.CenterScreen;
+            tt.ultraToolLayout1.DrawBeamLine = true;
+            tt.ultraToolLayout1.startX = 0;
+            tt.ultraToolLayout1.endX = 100;
+            tt.ultraToolLayout1.startY = -100;
+            tt.ultraToolLayout1.endY = 100;
+            tt.ultraToolLayout1.xNum = 101;
+            tt.ultraToolLayout1.yNum = 201;
+            tt.ShowDialog();
         }
             
         static void LsTest(bool last)
         {
-            int num = 36000;
+            int num = 360;
             float[] x = new float[num];
             float[] y = new float[num];
-            float[] z = new float[num];
+            float[] x1 = new float[num * 2];
+            float[] z = new float[num*2];
             for (int i = 0; i < num; i++)
             {
                 x[i] = (float)((i - 180) * Math.PI / 180.0);
+                x1[i] = x[i];
+                x1[i + num] = (float)(x[i] + 2 * Math.PI) ;
                 y[i] = (float)(Math.Sin(x[i]));
                 z[i] = (float)(Math.Cos(x[i]));
+                z[i+num] = z[i];
             }
             series a = new series(x, y);
             a.sColor = System.Drawing.Color.Red;
-            series b = new series(x, z);
+            series b = new series(x1, z);
 
             List<series> t = new List<series>();
             t.Add(a);
@@ -36,7 +49,7 @@ namespace ZYCControl
             lsf.longStrip1.JudgeLine0Enable = true;
             lsf.longStrip1.JudgeLine0 = 0.5f;
             ///动态画图时，必须fixRange
-            lsf.FigureInitial(t, true, new float[4] { x[0], x[num-1], -1, 1 });
+            lsf.FigureInitial(t, true, new float[4] { x[0], x1[2*num-1], -1, 1 });
             if (!last)
                 lsf.Show();
             else
@@ -73,6 +86,43 @@ namespace ZYCControl
         {
             //RulerTest rt = new RulerTest();
             //rt.ShowDialog();
+        }
+
+        static void AscanTestt()
+        {
+            int num = 360;
+            float[] x = new float[num];
+            float[] y = new float[num];
+            for (int i = 0; i < num; i++)
+            {
+                x[i] = (float)((i - 180) * Math.PI / 180.0);
+                y[i] = (float)(Math.Sin(x[i]))*50+50;
+            }
+            AscanTest ascanTest = new AscanTest(x, y);
+            ascanTest.ShowDialog();
+            
+            int k = 0;
+            while (true)
+            {
+                for (int i = 0; i < num; i++)
+                    y[(i + k) % num] = (float)(Math.Sin(x[i]));
+                Thread.Sleep(1000);
+            }
+        }
+
+        static void figureTest()
+        {
+            float[] data = new float[1024 * 1024];
+            for (int i = 0; i < 1024; i++)
+                for (int j = 0; j < 1024; j++)
+                    data[i * 1024 + j] = i + j;
+            
+            InputImageData a = new InputImageData(data, 1024, 1024);
+            OutputBmp outputBmp = new OutputBmp(0,1024*2);
+            FigureForm fig = new FigureForm();
+            fig.FigureInitial(a, outputBmp, 0);
+            fig.StartPosition = FormStartPosition.CenterScreen;
+            fig.ShowDialog();
         }
         
     }

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
-    public partial class FigurCommentUT : UserControl
+    public partial class Ultravision2D : UserControl
     {
         /// <summary>
         /// 数据图像
@@ -23,18 +23,33 @@ namespace ZYCControl
         /// <summary>
         /// 画放大区域的矩形框
         /// </summary>
-        private DrawZoomRegion zoomRegion;
+        private DrawZoomRegion zoomRegion = null;
         public OutputBmp outBmp = null;
         public InputImageData inputData = null;
-        public bool AltIsDown, ControlIsDown, ShiftIsDown;
+        public bool AltIsDown, ControlIsDown, ShiftIsDown;        
         public float zeroRatio;
         private bool firstZoom;
+        /// <summary>
+        /// 图像显示区域的width和height，0~1
+        /// </summary>
         private float wt, ht;
-               
-
-        public FigurCommentUT()
+        public bool RefCursorShow, MeaCursorShow;
+        /// <summary>
+        /// 当前数据的起末点信息
+        /// </summary>
+        public double Vstart, Vend, Hstart, Hend;
+        private Font CursorInfoFont;
+        private string CursorInfoSFormat;
+        private Graphics g;
+                
+        public Ultravision2D()
         {
             InitializeComponent();
+
+            CursorInfoFont = new Font("Times New Roman", 8);
+            CursorInfoSFormat = "{0:0.00}";
+            g = CreateGraphics();
+            CursorsInitail();
         }
 
         /// <summary>
@@ -65,52 +80,40 @@ namespace ZYCControl
 
         }
 
-        private void Figure_MouseMove(object sender, MouseEventArgs e)
+        private void Ultravision2D_MouseMove(object sender, MouseEventArgs e)
         {
             Point p = new Point(e.X, e.Y);
             JudgeMouseIsInControl(p);
 
             //画阴影区域
-            
-            if (zoomRegion!= null)
+            if (zoomRegion != null)
             {
                 DrawRectangle(p);
             }
-            
         }
 
-        private void Figure_MouseDown(object sender, MouseEventArgs e)
+        private void Ultravision2D_MouseDown(object sender, MouseEventArgs e)
         {
-            if (MouseIsInControl & AltIsDown == false)
+            if (MouseIsInControl)
             {
                 zoomRegion = new DrawZoomRegion();
                 zoomRegion.p0 = e.Location;
-            }
-            
+            }            
         }
 
-        private void Figure_MouseUp(object sender, MouseEventArgs e)
+        private void Ultravision2D_MouseUp(object sender, MouseEventArgs e)
         {
-            if (zoomRegion!= null & AltIsDown == false)
+            if (zoomRegion != null & AltIsDown == false)
             {
-                CalRealZoomRect(
-                    new Rectangle(zoomRegion.minX, zoomRegion.minY,zoomRegion.width,zoomRegion.height));
-                                
+                Invalidate();
+                CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
+                
+                zoomRegion = null;
+
             }
-            
-            zoomRegion = null;
-        }
 
-        private void Figure_DoubleClick(object sender, EventArgs e)
-        {
-            ima.inputData.ReSet();
-            ima.DisplayZoneMin = new float[2] { 0, 0 };
-            ima.DisplayZoneMax = new float[2] { 1, 1 };
-            ima.RefreshBMP();
-            firstZoom = true;
-            Invalidate();
         }
-
+        
         /// <summary>
         /// 计算放大区域，并进行放大
         /// </summary>
@@ -119,7 +122,7 @@ namespace ZYCControl
         {
             if (zoomRectangle.Width != 0 & zoomRectangle.Height != 0)
             {
-                
+
                 if (firstZoom)
                 {
                     ima.DisplayZoneMin[0] = zoomRectangle.X / (float)Width;
@@ -161,19 +164,14 @@ namespace ZYCControl
             if (p.Y < 0)
                 np.Y = 0;
 
+            
             zoomRegion.p1 = np;
-            zoomRegion.ReSet();
-            if (zoomRegion.width < 5)
+
+            if (zoomRegion.pChanged)
             {
-                zoomRegion.minX = 0;
-                zoomRegion.width = Width;
+                Invalidate();
+                //zoomRegion.Draw(true);
             }
-            if (zoomRegion.height < 5)
-            {
-                zoomRegion.minY = 0;
-                zoomRegion.height = Height;
-            }
-            pictureBox1.Invalidate();
         }
 
         /// <summary>
@@ -194,8 +192,8 @@ namespace ZYCControl
             else
                 MouseIsInControl = false;
         }
-
-        private void Figure_KeyDown(object sender, KeyEventArgs e)
+        
+        private void Ultravision2D_KeyDown(object sender, KeyEventArgs e)
         {
             var m = ModifierKeys;
             if (m == Keys.Alt)
@@ -206,23 +204,7 @@ namespace ZYCControl
                 ShiftIsDown = true;
         }
 
-        private void pictureBox1_Paint(object sender, PaintEventArgs e)
-        {
-            base.OnPaint(e);
-            if (zoomRegion != null)
-            {
-                SolidBrush b = new SolidBrush(Color.FromArgb(96, Color.Gray));
-                Rectangle r = new Rectangle(zoomRegion.minX, 
-                    zoomRegion.minY, 
-                    zoomRegion.width, 
-                    zoomRegion.height);
-                if (zoomRegion.height!=0 && zoomRegion.width!=0)
-                    e.Graphics.FillRectangle(b, r);
-            }
-
-        }
-
-        private void Figure_KeyUp(object sender, KeyEventArgs e)
+        private void Ultravision2D_KeyUp(object sender, KeyEventArgs e)
         {
             var m = ModifierKeys;
             if (m == Keys.None)
@@ -233,7 +215,37 @@ namespace ZYCControl
             }
         }
 
-        private void Figure_SizeChanged(object sender, EventArgs e)
+        private void Ultravision2D_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (AltIsDown)
+            {
+                ima.inputData.ReSet();
+                ima.DisplayZoneMin = new float[2] { 0, 0 };
+                ima.DisplayZoneMax = new float[2] { 1, 1 };
+                ima.RefreshBMP();
+                firstZoom = true;
+            }
+            else
+            {                
+                if (e.Button == MouseButtons.Left)
+                {
+                    MeaCursorShow = true;
+                    CursorsInitail();
+                    MeaCursorsH.p = MeaCursorsV.p = e.Location;
+                    RefreshDataCursors();
+                }
+                else
+                {
+                    RefCursorShow = true;
+                    CursorsInitail();
+                    RefCursorsH.p = RefCursorsV.p = e.Location;
+                    RefreshDataCursors();
+                }
+
+            }
+        }
+
+        private void Ultravision2D_SizeChanged(object sender, EventArgs e)
         {
             if (ima != null)
             {
@@ -243,8 +255,8 @@ namespace ZYCControl
 
                 Invalidate();
             }
-        }
-        
+        }        
+
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -253,5 +265,89 @@ namespace ZYCControl
             if (ima != null)
                 graphics.DrawImage(ima.bmp, 0, 0);
         }
+
+        #region 光标
+        
+        private void CursorsInitail()
+        {
+                RefCursorsH = new FigCursors();
+                RefCursorsH.Parent = this;
+                RefCursorsH.style = "H";
+                RefCursorsH.color = Color.Red;
+                RefCursorsH.p = new Point(0, 0);
+
+                RefCursorsV = new FigCursors();
+                RefCursorsV.Parent = this;
+                RefCursorsV.style = "V";
+                RefCursorsV.color = Color.Red;
+                RefCursorsV.p = new Point(0, 0);
+
+                MeaCursorsH = new FigCursors();
+                MeaCursorsH.Parent = this;
+                MeaCursorsH.style = "H";
+                MeaCursorsH.color = Color.Blue;
+                MeaCursorsH.p = new Point(0, 0);
+
+                MeaCursorsV = new FigCursors();
+                MeaCursorsV.Parent = this;
+                MeaCursorsV.style = "V";
+                MeaCursorsV.color = Color.Blue;
+                MeaCursorsV.p = new Point(0, 0);
+        }
+
+        private void RefreshDataCursors()
+        {   
+            if (MeaCursorShow)
+            {
+                AddCursorsInfo(MeaCursorsH);
+                AddCursorsInfo(MeaCursorsV);
+            }
+            if (RefCursorShow)
+            {
+                AddCursorsInfo(RefCursorsH);
+                AddCursorsInfo(RefCursorsV);
+            }
+        }
+
+        private void AddCursorsInfo(FigCursors figCursors)
+        {
+            double info = CalCursorsInfo(figCursors.p, figCursors.style);
+            DrawInfo(info, figCursors.style, figCursors.p);
+        }
+        
+        private double CalCursorsInfo(Point p, string style)
+        {
+            if (style == "H")
+                return (1 - p.Y / Height) * (Vend - Vstart) + Vstart;
+            else
+                return p.X / Width * (Hend - Hstart) + Hstart;
+        }
+
+        private void DrawInfo(double info, string style, Point p)
+        {
+            SizeF sif = g.MeasureString(info.ToString(CursorInfoSFormat), CursorInfoFont);
+            Size sii = new Size((int)(sif.Width + 1), (int)(sif.Height + 1));
+            Point pinfo = new Point(0, p.Y);
+            if (style == "H")
+            {
+                if (p.Y / Height < 0.5){
+                    //不变。
+                }
+                else
+                    pinfo = new Point(0, p.Y - sii.Height);
+            }
+            else
+            {
+                if (p.X / Width < 0.5)
+                    pinfo = new Point(p.X, 0);
+                else
+                    pinfo = new Point(p.X - sii.Width, 0);
+            }
+
+            Rectangle rectangle = new Rectangle(pinfo, sii);
+            g.DrawRectangle(new Pen(Color.White, 1), rectangle);
+            g.DrawString(CursorInfoSFormat, CursorInfoFont, new SolidBrush(Color.Black), pinfo);
+        }
+        #endregion
     }
 }

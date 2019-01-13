@@ -1144,8 +1144,8 @@ namespace ZYCControl
                     ResetPara();
             }
         }
-        public float[] _DisplayZoneMin = new float[2]{0,0};
-        public float[] _DisplayZoneMax = new float[2] { 1, 1};
+        public float[] DisplayZoneMin = new float[2]{0,0};
+        public float[] DisplayZoneMax = new float[2] { 1, 1};
         private float width0;
         private float height0;
 
@@ -1227,8 +1227,8 @@ namespace ZYCControl
             stepy = matr / (height0);
 
             //像素起点
-            float x0 = _DisplayZoneMin[0] * width0;
-            float y0 = _DisplayZoneMin[1] * height0;
+            float x0 = DisplayZoneMin[0] * width0;
+            float y0 = DisplayZoneMin[1] * height0;
             //数据矩阵点
             float tpy = (py+ y0) * stepy  ;
             float tpy0 = Math.Max(tpy - stepy,0);
@@ -1291,8 +1291,8 @@ namespace ZYCControl
             stepy = matr / (height0);
 
             //像素起点
-            float x0 = _DisplayZoneMin[0] * width0;
-            float y0 = _DisplayZoneMin[1] * height0;
+            float x0 = DisplayZoneMin[0] * width0;
+            float y0 = DisplayZoneMin[1] * height0;
             //数据矩阵点
             float tpy = (py + y0) * stepy;
             float tpy0 = Math.Max(tpy - stepy, 0);
@@ -1350,8 +1350,8 @@ namespace ZYCControl
         /// </summary>
         public void ResetPara()
         {
-            width0 = _outBmp.width / (_DisplayZoneMax[0] - _DisplayZoneMin[0]);
-            height0 = _outBmp.height / (_DisplayZoneMax[1] - _DisplayZoneMin[1]);
+            width0 = _outBmp.width / (DisplayZoneMax[0] - DisplayZoneMin[0]);
+            height0 = _outBmp.height / (DisplayZoneMax[1] - DisplayZoneMin[1]);
             
         }
     }
@@ -1498,10 +1498,6 @@ namespace ZYCControl
         public int seriesNum;
         private List<series> pixelData;
         /// <summary>
-        /// 上一个修改的末点
-        /// </summary>
-        private List<float[]> lastSerial;
-        /// <summary>
         /// 如果控件未激活，则不进行计算
         /// </summary>
         public bool ControlActived = true;
@@ -1514,10 +1510,16 @@ namespace ZYCControl
             ResetPara(paraChanged);
             GetDataRange();
             if (paraChanged)
-            {                
+            {
+                //preData = new List<series>(seriesNum);
                 ResetPixelData();
                 for (int i = 0; i < seriesNum; i++)
+                {
                     DrawSeries(pixelData[i], inG[i]);
+                    //preData.Add(new series());
+                    //_rawData[i].CopyTo(preData[i]);
+                }
+                
             }
             else
             {
@@ -1688,7 +1690,6 @@ namespace ZYCControl
         public List<float[]> PixelToData(int x, out int pointX, out List<int> pointY)
         {
             List<float[]> result = new List<float[]>(seriesNum);
-            List<int> tmp = new List<int>(seriesNum);
             float px = (x + DisPlayZoneMinP.x) / width0 * xw + x0;
             List<float> allX = new List<float>(seriesNum * 100000);
             for (int i = 0; i < seriesNum; i++)
@@ -1712,13 +1713,21 @@ namespace ZYCControl
                 {
                     float odatay = _rawData[i].y[m];
                     result.Add(new float[] { odatax, odatay });
-                    int pixelY = (int)Math.Round(ControlHeight - (odatay - y0) / yh * ControlHeight);
+                    int pixelY = CalYpixel(odatay);
                     if (pixelY > ControlHeight || pixelY < 0)
                         pixelY = -1;
                     pointY.Add(pixelY);
                 }
             }
             return result;
+        }
+
+        private int CalYpixel(float y)
+        {
+            int pixelY = 0;
+            float range = yh * (DisplayZoneMax[1] - DisplayZoneMin[1]);
+            float start = yh * (1 - DisplayZoneMax[1]) + y0;
+            return pixelY = (int)(((-y + start) / range + 1) * ControlHeight); ;
         }
 
         /// <summary>
@@ -2069,7 +2078,6 @@ namespace ZYCControl
                 DrawSeries(pa[i], ing_a[i]);
                 DrawSeries(pb[i], ing_b[i]);
             }
-            
         }
         
         /// <summary>

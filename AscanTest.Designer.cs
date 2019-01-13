@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class FigureForm
+    partial class AscanTest
     {
         /// <summary>
         /// Required designer variable.
@@ -28,35 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.figure1 = new ZYCControl.FigurCommentUT();
+            this.ultraAscan1 = new ZYCControl.UltraAscan();
             this.SuspendLayout();
             // 
-            // figure1
+            // ultraAscan1
             // 
-            this.figure1.BackColor = System.Drawing.SystemColors.Control;
-            this.figure1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.figure1.Location = new System.Drawing.Point(0, 0);
-            this.figure1.Name = "figure1";
-            this.figure1.Size = new System.Drawing.Size(353, 305);
-            this.figure1.TabIndex = 0;
+            this.ultraAscan1.Location = new System.Drawing.Point(1, 1);
+            this.ultraAscan1.Name = "ultraAscan1";
+            this.ultraAscan1.Size = new System.Drawing.Size(475, 379);
+            this.ultraAscan1.TabIndex = 0;
             // 
-            // FigureForm
+            // AscanTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 305);
-            this.Controls.Add(this.figure1);
-            this.DoubleBuffered = true;
-            this.Name = "FigureForm";
-            this.Text = "Form3";
+            this.ClientSize = new System.Drawing.Size(477, 385);
+            this.Controls.Add(this.ultraAscan1);
+            this.Name = "AscanTest";
+            this.Text = "AscanTest";
             this.ResumeLayout(false);
 
         }
 
-
-
         #endregion
 
-        public FigurCommentUT figure1;
+        private UltraAscan ultraAscan1;
     }
 }

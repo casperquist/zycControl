@@ -16,11 +16,14 @@ namespace ZYCControl
 
         public LongStripForm()
         {
+            
+            InitializeComponent();
+            Version v =System.Environment.Version;
             SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲  
-            InitializeComponent();
-
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true); // 双缓冲 
+            SetStyle(ControlStyles.ResizeRedraw, true);
+            UpdateStyles();
             EventAndRespone();
         }
 
@@ -107,7 +110,6 @@ namespace ZYCControl
             longStrip1.RangeChange += new RangeChangedHandleEvent(rulerBarV.ResponeEvent);
             rulerBarH.RangeChanged += new RangeChangedHandleEvent(longStrip1.ResponeEvent);
             rulerBarV.RangeChanged += new RangeChangedHandleEvent(longStrip1.ResponeEvent);
-
         }
 
         private void LongStripForm_MouseMove(object sender, MouseEventArgs e)

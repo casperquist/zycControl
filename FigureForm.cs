@@ -14,10 +14,10 @@ namespace ZYCControl
     {
         public FigureForm()
         {
-            SetStyle(ControlStyles.UserPaint, true);
+            InitializeComponent();
+            /*SetStyle(ControlStyles.UserPaint, true);
             SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲  
-            InitializeComponent();            
+            SetStyle(ControlStyles.OptimizedDoubleBuffer, true); // 双缓冲 */
         }
 
         public void FigureInitial(InputImageData a, OutputBmp b, float tmp)
@@ -27,7 +27,6 @@ namespace ZYCControl
             figure1.zeroRatio = tmp;
             figure1.NewImage();
             figure1.ima.ZeroColRatio = tmp;
-
         }
 
         

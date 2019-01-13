@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class LongStrip
+    partial class Ultravision2D
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -30,24 +30,26 @@
         {
             this.SuspendLayout();
             // 
-            // LongStrip
+            // Ultravision2D
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Name = "LongStrip";
-            this.SizeChanged += new System.EventHandler(this.Plot2D_SizeChanged);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LongStrip_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.LongStrip_KeyUp);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseDoubleClick);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseUp);
+            this.Name = "Ultravision2D";
+            this.Size = new System.Drawing.Size(206, 199);
+            this.SizeChanged += new System.EventHandler(this.Ultravision2D_SizeChanged);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Ultravision2D_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Ultravision2D_KeyUp);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseDoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseUp);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        
+
+
+        public FigCursors RefCursorsH, RefCursorsV, MeaCursorsH, MeaCursorsV;
     }
 }

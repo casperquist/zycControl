@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class FigureForm
+    partial class Ultravision2DForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,35 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.figure1 = new ZYCControl.FigurCommentUT();
+            this.u2d = new ZYCControl.Ultravision2D();
             this.SuspendLayout();
             // 
-            // figure1
+            // u2d
             // 
-            this.figure1.BackColor = System.Drawing.SystemColors.Control;
-            this.figure1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.figure1.Location = new System.Drawing.Point(0, 0);
-            this.figure1.Name = "figure1";
-            this.figure1.Size = new System.Drawing.Size(353, 305);
-            this.figure1.TabIndex = 0;
+            this.u2d.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.u2d.Location = new System.Drawing.Point(0, 0);
+            this.u2d.Name = "u2d";
+            this.u2d.Size = new System.Drawing.Size(797, 448);
+            this.u2d.TabIndex = 0;
             // 
-            // FigureForm
+            // Ultravision2DForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 305);
-            this.Controls.Add(this.figure1);
-            this.DoubleBuffered = true;
-            this.Name = "FigureForm";
-            this.Text = "Form3";
+            this.ClientSize = new System.Drawing.Size(797, 448);
+            this.Controls.Add(this.u2d);
+            this.Name = "Ultravision2DForm";
+            this.Text = "Ultravision2DForm";
             this.ResumeLayout(false);
 
         }
 
-
-
         #endregion
 
-        public FigurCommentUT figure1;
+        private Ultravision2D u2d;
     }
 }

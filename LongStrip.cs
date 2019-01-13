@@ -14,10 +14,7 @@ namespace ZYCControl
     public partial class LongStrip : UserControl
     {
         public LongStrip()
-        {
-            SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲 
+        {            
             InitializeComponent();
         }
 
@@ -182,8 +179,7 @@ namespace ZYCControl
                 { tips.Clear(); tips = null; }
                 Invalidate();
                 CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
-                if (zoomRegion.g != null)
-                    zoomRegion.g.Dispose();
+                
                 zoomRegion = null;
 
             }
@@ -240,14 +236,13 @@ namespace ZYCControl
             if (p.Y < 0)
                 np.Y = 0;
 
-            if (zoomRegion.g == null)
-                zoomRegion.g = this.CreateGraphics();
+            
             zoomRegion.p1 = np;
 
             if (zoomRegion.pChanged)
             {
                 Refresh();
-                zoomRegion.Draw(true);
+                //zoomRegion.Draw(true);
             }
         }
 
@@ -298,6 +293,8 @@ namespace ZYCControl
             Graphics graphics = e.Graphics;
             if (ima != null)
                 graphics.DrawImage(ima.bmp, 0, 0);
+            else
+                return;
             DrawJudgeLines(graphics);
             //GC.Collect();
         }
@@ -341,7 +338,9 @@ namespace ZYCControl
         {
             if (enable)
             {
-                int y = (int)((ima.yh*(1-ima.DisplayZoneMin[1])+ima.y0 - value) / ima.yh * ima.ControlHeight);
+                float yrange = ima.yh * (ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1]);
+                float ystart = ima.yh * (1 - ima.DisplayZoneMax[1]) + ima.y0;
+                int y = (int)(((-value + ystart) / yrange + 1) * ima.ControlHeight);
                 if (y >= 0 & y <= ima.ControlHeight)
                 {
                     g.DrawLine(pen, new Point(0, y), new Point(ima.ControlWidth, y));
@@ -396,24 +395,26 @@ namespace ZYCControl
           
             for (int i = 0; i < sn; i++)
             {
-                int DrawPointSize = 2;
-                g.FillEllipse(new SolidBrush(color[i]), new Rectangle(px- DrawPointSize, py[i]-DrawPointSize, 
-                    2* DrawPointSize+1, 2* DrawPointSize+1));                
-                string infos = xName + "=" + string.Format(xStringFormat, info[i][0]) + xUnit
-                    + "  " + yName + "=" + string.Format(yStringFormat, info[i][1]) + yUnit;
-                Point point = new Point(px + DrawPointSize, py[i] + DrawPointSize);
-                SizeF sizeF = g.MeasureString(infos, infoFont);
-                Rectangle rectangle = new Rectangle(point.X,point.Y, (int)sizeF.Width+DrawPointSize, (int)sizeF.Height+DrawPointSize);
-                ///使数据信息在显示范围内
-                if (point.X + rectangle.Width > Width)
-                    point.X -= rectangle.Width;
-                if (point.Y + rectangle.Height > Height)
-                    point.Y -= rectangle.Height;
-                ResetPoint(drawed,ref point);                
-                g.DrawString(infos, infoFont, new SolidBrush(color[i]), point);
-                rectangle = new Rectangle(point.X, point.Y, (int)sizeF.Width + DrawPointSize, (int)sizeF.Height + DrawPointSize);
-                drawed.Add(rectangle);
-
+                if (info[i] != null)
+                {
+                    int DrawPointSize = 2;
+                    g.FillEllipse(new SolidBrush(color[i]), new Rectangle(px - DrawPointSize, py[i] - DrawPointSize,
+                        2 * DrawPointSize + 1, 2 * DrawPointSize + 1));
+                    string infos = xName + "=" + string.Format(xStringFormat, info[i][0]) + xUnit
+                        + "  " + yName + "=" + string.Format(yStringFormat, info[i][1]) + yUnit;
+                    Point point = new Point(px + DrawPointSize, py[i] + DrawPointSize);
+                    SizeF sizeF = g.MeasureString(infos, infoFont);
+                    Rectangle rectangle = new Rectangle(point.X, point.Y, (int)sizeF.Width + DrawPointSize, (int)sizeF.Height + DrawPointSize);
+                    ///使数据信息在显示范围内
+                    if (point.X + rectangle.Width > Width)
+                        point.X -= rectangle.Width;
+                    if (point.Y + rectangle.Height > Height)
+                        point.Y -= rectangle.Height;
+                    ResetPoint(drawed, ref point);
+                    g.DrawString(infos, infoFont, new SolidBrush(color[i]), point);
+                    rectangle = new Rectangle(point.X, point.Y, (int)sizeF.Width + DrawPointSize, (int)sizeF.Height + DrawPointSize);
+                    drawed.Add(rectangle);
+                }
             }
         }
 
@@ -450,6 +451,8 @@ namespace ZYCControl
                 ima.DisplayZoneMin[1] = -(range[1] - ima.y1) / ima.yh;
                 ima.DisplayZoneMax[1] = -(range[0] - ima.y1) / ima.yh;
             }
+            wt = ima.DisplayZoneMax[0] - ima.DisplayZoneMin[0];
+            ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
             firstZoom = false;
             ima.Refresh(true);
             Invalidate();

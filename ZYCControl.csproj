@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{16E42840-ACCF-45E4-A360-F27B6518093A}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZYCControl</RootNamespace>
     <AssemblyName>ZYCControl</AssemblyName>
@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AscanTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AscanTest.Designer.cs">
+      <DependentUpon>AscanTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="BmpShow.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -55,6 +61,13 @@
       <DependentUpon>BmpShow.cs</DependentUpon>
     </Compile>
     <Compile Include="CodeFile1.cs" />
+    <Compile Include="FigCursor.cs" />
+    <Compile Include="FigCursors.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FigCursors.Designer.cs">
+      <DependentUpon>FigCursors.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataTips.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -105,6 +118,12 @@
     <Compile Include="LongStripForm.Designer.cs">
       <DependentUpon>LongStripForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainForm.Designer.cs">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Point2Dim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
@@ -112,11 +131,22 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
     <Compile Include="RulerBar.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="RulerBar.Designer.cs">
       <DependentUpon>RulerBar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ToolTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ToolTest.Designer.cs">
+      <DependentUpon>ToolTest.cs</DependentUpon>
     </Compile>
     <Compile Include="TransparentInfo.cs">
       <SubType>UserControl</SubType>
@@ -124,11 +154,45 @@
     <Compile Include="TransparentInfo.Designer.cs">
       <DependentUpon>TransparentInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="UltraAscan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UltraAscan.Designer.cs">
+      <DependentUpon>UltraAscan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UltraToolLayout.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UltraToolLayout.Designer.cs">
+      <DependentUpon>UltraToolLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ultravision2D.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Ultravision2D.Designer.cs">
+      <DependentUpon>Ultravision2D.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Ultravision2DForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Ultravision2DForm.Designer.cs">
+      <DependentUpon>Ultravision2DForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ZoomRegion.cs" />
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="AscanTest.resx">
+      <DependentUpon>AscanTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FigCursors.resx">
+      <DependentUpon>FigCursors.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataTips.resx">
       <DependentUpon>DataTips.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FigurCommentUT.resx">
+      <DependentUpon>FigurCommentUT.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Figure.resx">
       <DependentUpon>Figure.cs</DependentUpon>
@@ -148,6 +212,9 @@
     <EmbeddedResource Include="LongStripForm.resx">
       <DependentUpon>LongStripForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -155,12 +222,31 @@
     <EmbeddedResource Include="RulerBar.resx">
       <DependentUpon>RulerBar.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="ToolTest.resx">
+      <DependentUpon>ToolTest.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TransparentInfo.resx">
       <DependentUpon>TransparentInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UltraAscan.resx">
+      <DependentUpon>UltraAscan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UltraToolLayout.resx">
+      <DependentUpon>UltraToolLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ultravision2D.resx">
+      <DependentUpon>Ultravision2D.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Ultravision2DForm.resx">
+      <DependentUpon>Ultravision2DForm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

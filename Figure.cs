@@ -23,7 +23,7 @@ namespace ZYCControl
         /// <summary>
         /// 画放大区域的矩形框
         /// </summary>
-        private DrawZoomRegion zoomRegion = null;
+        private Rectangle zoomRegion;
         public OutputBmp outBmp = null;
         public InputImageData inputData = null;
         public bool AltIsDown, ControlIsDown, ShiftIsDown;
@@ -31,12 +31,10 @@ namespace ZYCControl
         /// 临时存储数据游标位置处的数据
         /// </summary>
         private DataTips tips;
+        private Graphics g;
 
         public Figure()
         {
-            SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲  
             InitializeComponent();            
         }
 
@@ -82,8 +80,8 @@ namespace ZYCControl
         {
             if (MouseIsInControl & AltIsDown == false)
             {
-                zoomRegion = new DrawZoomRegion();
-                zoomRegion.p0 = e.Location;               
+                zoomRegion = new Rectangle();
+                zoomRegion.Location = e.Location;               
             }
             else
             {
@@ -96,15 +94,12 @@ namespace ZYCControl
 
         private void Figure_MouseUp(object sender, MouseEventArgs e)
         {
-            if (zoomRegion != null & AltIsDown == false)
+            if (AltIsDown == false)
             {
                 if (tips != null)
                     {tips.Clear();tips = null; }
                 Refresh();                
-                CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
-                if (zoomRegion.g != null)
-                    zoomRegion.g.Dispose();
-                zoomRegion = null;
+                CalRealZoomRect(zoomRegion);
             }
             
         }
@@ -151,16 +146,15 @@ namespace ZYCControl
             if (p.Y < 0)
                 np.Y = 0;
 
-            if (zoomRegion.g == null)
-                zoomRegion.g = CreateGraphics();
-            zoomRegion.p1 = np;
-
-            if (zoomRegion.pChanged)
-            {
-                Refresh();
-                zoomRegion.Draw(true);
-            }
+            
+            zoomRegion.Width = np.X - zoomRegion.X;
+            zoomRegion.Height = np.Y - zoomRegion.Y;
+                        
+            SolidBrush b = new SolidBrush(Color.FromArgb(125, Color.Gray));
+            g = CreateGraphics();
+            g.FillRectangle(b, zoomRegion);
         }
+        
 
         /// <summary>
         /// 判断点是否在控件中

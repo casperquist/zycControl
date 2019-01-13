@@ -59,7 +59,7 @@
             // 
             // longStrip1
             // 
-            this.longStrip1.BackColor = System.Drawing.SystemColors.Control;
+            this.longStrip1.BackColor = System.Drawing.Color.White;
             this.longStrip1.JudgeLine0 = 0F;
             this.longStrip1.JudgeLine0Enable = false;
             this.longStrip1.JudgeLine1 = 0F;
@@ -94,7 +94,7 @@
 
         public LongStrip longStrip1;
         private System.Windows.Forms.Timer timer1;
-        private RulerBar rulerBarV;
-        private RulerBar rulerBarH;
+        public RulerBar rulerBarV;
+        public RulerBar rulerBarH;
     }
 }

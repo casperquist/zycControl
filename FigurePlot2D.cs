@@ -22,9 +22,6 @@ namespace ZYCControl
 
         public FigurePlot2D()
         {
-            SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.DoubleBuffer, true); // 双缓冲  
             InitializeComponent();
         }
 
@@ -101,8 +98,7 @@ namespace ZYCControl
                 { tips.Clear(); tips = null; }
                 Refresh();
                 CalRealZoomRect(new Rectangle(zoomRegion.minX, zoomRegion.minY, zoomRegion.width, zoomRegion.height));
-                if (zoomRegion.g != null)
-                    zoomRegion.g.Dispose();
+                
                 zoomRegion = null;
 
             }
@@ -153,14 +149,13 @@ namespace ZYCControl
             if (p.Y < 0)
                 np.Y = 0;
 
-            if (zoomRegion.g == null)
-                zoomRegion.g = CreateGraphics();
+            
             zoomRegion.p1 = np;
 
             if (zoomRegion.pChanged)
             {
                 Refresh();
-                zoomRegion.Draw(true);
+                //zoomRegion.Draw(true);
             }
         }
 

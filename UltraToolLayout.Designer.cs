@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class LongStrip
+    partial class UltraToolLayout
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -30,24 +30,24 @@
         {
             this.SuspendLayout();
             // 
-            // LongStrip
+            // UltraToolLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.Name = "LongStrip";
-            this.SizeChanged += new System.EventHandler(this.Plot2D_SizeChanged);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LongStrip_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.LongStrip_KeyUp);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseDoubleClick);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Plot2D_MouseUp);
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.DoubleBuffered = true;
+            this.Name = "UltraToolLayout";
+            this.SizeChanged += new System.EventHandler(this.UltraToolLayout_SizeChanged);
+            this.DoubleClick += new System.EventHandler(this.UltraToolLayout_DoubleClick);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UltraToolLayout_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.UltraToolLayout_KeyUp);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.UltraToolLayout_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.UltraToolLayout_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.UltraToolLayout_MouseUp);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-        
     }
 }

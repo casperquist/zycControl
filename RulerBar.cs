@@ -228,7 +228,7 @@ namespace ZYCControl
         private void DrawScale(int TallLength, int MiddleLength, int ShortLength)
         {
             Pen pen = new Pen(Color.Black);
-            Font font = new Font("Times New Roman", 8, FontStyle.Regular);
+            Font font = new Font("宋体", 8, FontStyle.Regular);
             int n = ScalePixelTall.Count;
 
             if (HoriBar)
@@ -257,7 +257,7 @@ namespace ZYCControl
                     int vp = Height - ScalePixelTall[i];
                     g.DrawLine(pen, new Point(1, vp), new Point(TallLength, vp));
                     g.DrawString(string.Format(infoStringFormat, tallInfo[i]), font,
-                        new SolidBrush(Color.Black), new Point(1, vp));
+                        new SolidBrush(Color.Black), new Point(1, vp),new StringFormat(StringFormatFlags.DirectionVertical));
                 }
 
                 foreach (int m in ScalePixelMiddle)

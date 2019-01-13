@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class FigureForm
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,35 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.figure1 = new ZYCControl.FigurCommentUT();
+            this.button1 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // figure1
+            // button1
             // 
-            this.figure1.BackColor = System.Drawing.SystemColors.Control;
-            this.figure1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.figure1.Location = new System.Drawing.Point(0, 0);
-            this.figure1.Name = "figure1";
-            this.figure1.Size = new System.Drawing.Size(353, 305);
-            this.figure1.TabIndex = 0;
+            this.button1.Location = new System.Drawing.Point(99, 112);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // FigureForm
+            // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(353, 305);
-            this.Controls.Add(this.figure1);
-            this.DoubleBuffered = true;
-            this.Name = "FigureForm";
-            this.Text = "Form3";
+            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.Controls.Add(this.button1);
+            this.Name = "MainForm";
+            this.Text = "MainForm";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
 
         }
 
-
-
         #endregion
 
-        public FigurCommentUT figure1;
+        private System.Windows.Forms.Button button1;
     }
 }
