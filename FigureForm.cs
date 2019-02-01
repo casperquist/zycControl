@@ -15,9 +15,6 @@ namespace ZYCControl
         public FigureForm()
         {
             InitializeComponent();
-            /*SetStyle(ControlStyles.UserPaint, true);
-            SetStyle(ControlStyles.AllPaintingInWmPaint, true); // 禁止擦除背景.  
-            SetStyle(ControlStyles.OptimizedDoubleBuffer, true); // 双缓冲 */
         }
 
         public void FigureInitial(InputImageData a, OutputBmp b, float tmp)

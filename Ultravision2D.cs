@@ -49,7 +49,7 @@ namespace ZYCControl
             CursorInfoFont = new Font("Times New Roman", 8);
             CursorInfoSFormat = "{0:0.00}";
             g = CreateGraphics();
-            CursorsInitail();
+            //CursorsInitail();
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace ZYCControl
         /// <param name="row">bmp的行数</param>
         /// <param name="col">bmp的列数</param>
         /// <returns></returns>
-        public void NewImage()
+        /*public void NewImage()
         {
             // 重设参数
             outBmp.width = Width;
@@ -186,7 +186,7 @@ namespace ZYCControl
             if (rc.Contains(np))
             {
                 //鼠标形态改变
-                Cursor = Cursors.Cross;
+                Cursor = FigCursors.Cross;
                 MouseIsInControl = true;
             }
             else
@@ -270,25 +270,25 @@ namespace ZYCControl
         
         private void CursorsInitail()
         {
-                RefCursorsH = new FigCursors();
+                RefCursorsH = new FigCursor();
                 RefCursorsH.Parent = this;
                 RefCursorsH.style = "H";
                 RefCursorsH.color = Color.Red;
                 RefCursorsH.p = new Point(0, 0);
 
-                RefCursorsV = new FigCursors();
+                RefCursorsV = new FigCursor();
                 RefCursorsV.Parent = this;
                 RefCursorsV.style = "V";
                 RefCursorsV.color = Color.Red;
                 RefCursorsV.p = new Point(0, 0);
 
-                MeaCursorsH = new FigCursors();
+                MeaCursorsH = new FigCursor();
                 MeaCursorsH.Parent = this;
                 MeaCursorsH.style = "H";
                 MeaCursorsH.color = Color.Blue;
                 MeaCursorsH.p = new Point(0, 0);
 
-                MeaCursorsV = new FigCursors();
+                MeaCursorsV = new FigCursor();
                 MeaCursorsV.Parent = this;
                 MeaCursorsV.style = "V";
                 MeaCursorsV.color = Color.Blue;
@@ -309,7 +309,7 @@ namespace ZYCControl
             }
         }
 
-        private void AddCursorsInfo(FigCursors figCursors)
+        private void AddCursorsInfo(FigCursor figCursors)
         {
             double info = CalCursorsInfo(figCursors.p, figCursors.style);
             DrawInfo(info, figCursors.style, figCursors.p);
@@ -347,7 +347,7 @@ namespace ZYCControl
             Rectangle rectangle = new Rectangle(pinfo, sii);
             g.DrawRectangle(new Pen(Color.White, 1), rectangle);
             g.DrawString(CursorInfoSFormat, CursorInfoFont, new SolidBrush(Color.Black), pinfo);
-        }
-        #endregion
+        }*/
+        //#endregion
     }
 }

@@ -214,7 +214,7 @@ namespace ZYCControl
     /// <summary>
     /// 指针法set，get pixel
     /// </summary>
-    public class PointBitmap
+    public unsafe class PointBitmap
     {
         Bitmap source = null;
         IntPtr Iptr = IntPtr.Zero;
@@ -368,7 +368,6 @@ namespace ZYCControl
         /// </summary>
         public void RefreshBMP()
         {
-
             _outBmp.ReSet();
             pb = new PointBitmap(_outBmp.bmp);
             pb.LockBits();
@@ -1146,6 +1145,9 @@ namespace ZYCControl
         }
         public float[] DisplayZoneMin = new float[2]{0,0};
         public float[] DisplayZoneMax = new float[2] { 1, 1};
+        /// <summary>
+        /// 名义上的宽度，大于width
+        /// </summary>
         private float width0;
         private float height0;
 
@@ -1184,21 +1186,17 @@ namespace ZYCControl
         {
             ResetPara();
             _outBmp.ReSet();
+            uint[,] index = new uint[_outBmp.height, _outBmp.width];
+            
+            Parallel.For(0, _outBmp.width, i =>
+            {
+                for (int j = 0; j < _outBmp.height; j++)
+                {
+                    index[j, i] = GetColorIndex(i, j);
+                }
+            });
             pb = new PointBitmap(_outBmp.bmp);
             pb.LockBits();
-            uint[,] index = new uint[_outBmp.height, _outBmp.width];
-            long t0 = 0;
-
-            t0 = System.Environment.TickCount;
-            //for (int i = 0; i < _outBmp.width; i++)
-            Parallel.For(0, _outBmp.width, i =>
-              {
-                  for (int j = 0; j < _outBmp.height; j++)
-                  {
-                      index[j, i] = GetColorIndex(i, j);
-                  }
-              });
-            //Console.WriteLine((Environment.TickCount-t0).ToString());
             for (int i = 0; i < _outBmp.width; i++)
                 for (int j = 0; j < _outBmp.height; j++)
                 {
@@ -1259,7 +1257,7 @@ namespace ZYCControl
                 for (int j = 0; j <= sc; j++)
                 {
                     rc = (int)Math.Round(j + subMatrixCol0 - minc);
-                    if (rc > 0 & rc < _inputData.col)
+                    if (rc >= 0 & rc < _inputData.col)
                         tmp = _inputData.matrix[rr, rc];     
                     else
                         tmp = 0;
@@ -1323,7 +1321,7 @@ namespace ZYCControl
                 for (int j = 0; j <= sc; j++)
                 {
                     rc = (int)(j + subMatrixCol0 - minc);
-                    if (rc > 0 & rc < _inputData.col)
+                    if (rc >= 0 & rc < _inputData.col)
                     {
                         tmp = _inputData.matrix[rr, rc];
                         matrixR = rr;

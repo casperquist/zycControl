@@ -13,8 +13,7 @@ namespace ZYCControl
         
 
         public int minX, minY, width, height;
-
-
+        
         /// <summary>
         /// 缩放区域的参数重置
         /// </summary>
@@ -50,9 +49,7 @@ namespace ZYCControl
 
         public void DrawRegion(Graphics g, Size ParentsControlSize)
         {
-            ReSet(ParentsControlSize);
-            if (width > ParentsControlSize.Width*0.9)
-                Console.WriteLine("hehe");
+            ReSet(ParentsControlSize);            
             SolidBrush b = new SolidBrush(Color.FromArgb(96, Color.Gray));
             Rectangle r = new Rectangle(minX, minY, width, height);
             if (height > 1 && width > 1)

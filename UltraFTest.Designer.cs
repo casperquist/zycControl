@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class ToolTest
+    partial class UltraFTest
     {
         /// <summary>
         /// Required designer variable.
@@ -28,39 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ascan_1 = new ZYCControl.Ascan_();
+            this.ultravisionFieldRB = new ZYCControl.UltravisionFieldRB();
             this.SuspendLayout();
             // 
-            // ascan_1
+            // ultravisionFieldRB
             // 
-            this.ascan_1.BackColor = System.Drawing.Color.White;
-            this.ascan_1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ascan_1.EndX = 0F;
-            this.ascan_1.EndY = 0F;
-            this.ascan_1.Location = new System.Drawing.Point(0, 0);
-            this.ascan_1.Name = "ascan_1";
-            this.ascan_1.Size = new System.Drawing.Size(284, 261);
-            this.ascan_1.StartX = 0F;
-            this.ascan_1.StartY = 0F;
-            this.ascan_1.StepX = 0F;
-            this.ascan_1.StepY = 0F;
-            this.ascan_1.TabIndex = 0;
+            this.ultravisionFieldRB.BackColor = System.Drawing.Color.YellowGreen;
+            this.ultravisionFieldRB.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ultravisionFieldRB.Location = new System.Drawing.Point(0, 0);
+            this.ultravisionFieldRB.Name = "ultravisionFieldRB";
+            this.ultravisionFieldRB.Size = new System.Drawing.Size(451, 365);
+            this.ultravisionFieldRB.TabIndex = 0;
             // 
-            // ToolTest
+            // UltraFTest
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.PeachPuff;
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Controls.Add(this.ascan_1);
-            this.Name = "ToolTest";
-            this.Text = "ToolTest";
+            this.ClientSize = new System.Drawing.Size(451, 365);
+            this.Controls.Add(this.ultravisionFieldRB);
+            this.Name = "UltraFTest";
+            this.Text = "UltraFTest";
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        public Ascan_ ascan_1;
+        public UltravisionFieldRB ultravisionFieldRB;
     }
 }

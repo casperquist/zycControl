@@ -35,6 +35,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Transparent;
+            this.DoubleBuffered = true;
             this.Name = "RulerBar";
             this.Size = new System.Drawing.Size(85, 308);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.RublerBar_MouseDoubleClick);

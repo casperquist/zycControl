@@ -22,7 +22,7 @@ namespace ZYCControl
             u2d.inputData = a;
             u2d.outBmp = b;
             u2d.zeroRatio = tmp;
-            u2d.NewImage();
+            //u2d.NewImage();
             u2d.ima.ZeroColRatio = tmp;
         }
                 

@@ -9,16 +9,9 @@ namespace ZYCControl
     {
         static void Main(string[] args)
         {
-            ToolTest tt = new ToolTest();
-            tt.StartPosition = FormStartPosition.CenterScreen;
-            tt.ultraToolLayout1.DrawBeamLine = true;
-            tt.ultraToolLayout1.startX = 0;
-            tt.ultraToolLayout1.endX = 100;
-            tt.ultraToolLayout1.startY = -100;
-            tt.ultraToolLayout1.endY = 100;
-            tt.ultraToolLayout1.xNum = 101;
-            tt.ultraToolLayout1.yNum = 201;
-            tt.ShowDialog();
+            AscanTestt();
+
+
         }
             
         static void LsTest(bool last)
@@ -95,10 +88,24 @@ namespace ZYCControl
             float[] y = new float[num];
             for (int i = 0; i < num; i++)
             {
-                x[i] = (float)((i - 180) * Math.PI / 180.0);
-                y[i] = (float)(Math.Sin(x[i]))*50+50;
+                x[i] = (float)((i - 180) );
+                y[i] = (float)(Math.Sin(x[i] * Math.PI / 180.0));
             }
-            AscanTest ascanTest = new AscanTest(x, y);
+            series a = new series(x, y);
+            List<series> list = new List<series>() { a};
+            ToolTest toolTest = new ToolTest();
+            toolTest.ascan_1.StepX = 1;
+            toolTest.ascan_1.StepY = 0.001f;
+            toolTest.ascan_1.StartX = x[0];
+            toolTest.ascan_1.EndX = x[num - 1];
+            toolTest.ascan_1.StartY = -1;
+            toolTest.ascan_1.EndY = 1;
+            toolTest.ascan_1.NewImage(list, false, new float[] { x[0], x[num - 1], -1, 1 });
+
+            toolTest.StartPosition = FormStartPosition.CenterScreen;
+            toolTest.ShowDialog();
+
+            /*AscanTest ascanTest = new AscanTest(x, y);
             ascanTest.ShowDialog();
             
             int k = 0;
@@ -107,11 +114,13 @@ namespace ZYCControl
                 for (int i = 0; i < num; i++)
                     y[(i + k) % num] = (float)(Math.Sin(x[i]));
                 Thread.Sleep(1000);
-            }
+            }*/
         }
 
         static void figureTest()
         {
+            UltraFTest fig = new UltraFTest();
+            fig.StartPosition = FormStartPosition.CenterScreen;
             float[] data = new float[1024 * 1024];
             for (int i = 0; i < 1024; i++)
                 for (int j = 0; j < 1024; j++)
@@ -119,10 +128,42 @@ namespace ZYCControl
             
             InputImageData a = new InputImageData(data, 1024, 1024);
             OutputBmp outputBmp = new OutputBmp(0,1024*2);
-            FigureForm fig = new FigureForm();
-            fig.FigureInitial(a, outputBmp, 0);
+            fig.ultravisionFieldRB.ultravisionField1.inputData = a;
+            fig.ultravisionFieldRB.ultravisionField1.outBmp = outputBmp;
+            fig.ultravisionFieldRB.ultravisionField1.zeroRatio = 0;
+            ///xgap,ygap需写在前面
+            fig.ultravisionFieldRB.ultravisionField1.xGap = 1;
+            fig.ultravisionFieldRB.ultravisionField1.yGap = 1;
+            fig.ultravisionFieldRB.ultravisionField1.startX = 0;
+            fig.ultravisionFieldRB.ultravisionField1.endX = 1023;
+            fig.ultravisionFieldRB.ultravisionField1.startY = 0;
+            fig.ultravisionFieldRB.ultravisionField1.endY = 1023;
+
+            fig.ultravisionFieldRB.ultravisionField1.NewImage();
+            fig.ultravisionFieldRB.Start();
             fig.StartPosition = FormStartPosition.CenterScreen;
             fig.ShowDialog();
+        }
+
+        static void AscanToolTest()
+        {
+            ToolTest ascanTest = new ToolTest();
+            ascanTest.StartPosition = FormStartPosition.CenterScreen;
+            
+            /*ascanTest.ascanToolLayout.StepX = 1;
+            ascanTest.ascanToolLayout.StartX = 0;
+            ascanTest.ascanToolLayout.EndX = 1024;
+            ascanTest.ascanToolLayout.StepY = 0.5f;
+            ascanTest.ascanToolLayout.StartY = 0;
+            ascanTest.ascanToolLayout.EndY = 512;
+
+            ascanTest.ascanToolLayout.gate0.Enable = true;
+            ascanTest.ascanToolLayout.gate0.Threshold = 512;
+            ascanTest.ascanToolLayout.gate0.Start = 100;
+            ascanTest.ascanToolLayout.gate0.End = 150;*/
+            
+
+            //ascanTest.ShowDialog();
         }
         
     }

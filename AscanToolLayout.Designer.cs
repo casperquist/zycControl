@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class Ultravision2D
+    partial class AscanToolLayout
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -30,26 +30,25 @@
         {
             this.SuspendLayout();
             // 
-            // Ultravision2D
+            // AscanToolLayout
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "Ultravision2D";
-            this.Size = new System.Drawing.Size(206, 199);
-            /*this.SizeChanged += new System.EventHandler(this.Ultravision2D_SizeChanged);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Ultravision2D_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Ultravision2D_KeyUp);
-            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseDoubleClick);
-            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseDown);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseMove);
-            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Ultravision2D_MouseUp);*/
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.DoubleBuffered = true;
+            this.Name = "AscanToolLayout";
+            this.Size = new System.Drawing.Size(294, 247);
+            this.SizeChanged += new System.EventHandler(this.AscanToolLayout_SizeChanged);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.AscanToolLayout_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.AscanToolLayout_KeyUp);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.AscanToolLayout_MouseDoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.AscanToolLayout_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.AscanToolLayout_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.AscanToolLayout_MouseUp);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-
-        public FigCursor RefCursorsH, RefCursorsV, MeaCursorsH, MeaCursorsV;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class FigCursors
+    partial class LongStripToolLayout
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -28,17 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // Cursors
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.Transparent;
-            this.Name = "Cursors";
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Cursors_MouseMove);
-            this.ResumeLayout(false);
-
         }
 
         #endregion

@@ -99,20 +99,23 @@ namespace ZYCControl
             bmp = new Bitmap(Width, Height);
             g = Graphics.FromImage(bmp);
             float diffV = endValue - startValue;
-            
-            if (HoriBar)
-                diffP = Width;
-            else
-                diffP = Height;
-            k = diffV / diffP;
 
-            float minGap = diffV / (maxScalePN + 1);
-            float maxGap = diffV / ((minScalePN - 1) < 1 ? 1 : minScalePN - 1);
+            if (diffV != 0)
+            {
+                if (HoriBar)
+                    diffP = Width;
+                else
+                    diffP = Height;
+                k = diffV / diffP;
 
-            AdaptGap(minGap, maxGap, diffP);
-            CalculateScaleList();
-            DrawScale(10, 7, 5);
-            Refresh();
+                float minGap = diffV / (maxScalePN + 1);
+                float maxGap = diffV / ((minScalePN - 1) < 1 ? 1 : minScalePN - 1);
+
+                AdaptGap(minGap, maxGap, diffP);
+                CalculateScaleList();
+                DrawScale(10, 7, 5);
+                Refresh();
+            }
         }        
 
         /// <summary>
@@ -228,7 +231,7 @@ namespace ZYCControl
         private void DrawScale(int TallLength, int MiddleLength, int ShortLength)
         {
             Pen pen = new Pen(Color.Black);
-            Font font = new Font("宋体", 8, FontStyle.Regular);
+            Font font = new Font("宋体", 8);
             int n = ScalePixelTall.Count;
 
             if (HoriBar)
@@ -239,7 +242,7 @@ namespace ZYCControl
                 {
                     g.DrawLine(pen, new Point(ScalePixelTall[i], Height), 
                         new Point(ScalePixelTall[i], Height - TallLength));
-                    g.DrawString(string.Format(infoStringFormat, tallInfo[i]), font, 
+                    g.DrawString(string.Format(infoStringFormat, tallInfo[i]), font,
                         new SolidBrush(Color.Black), new Point(ScalePixelTall[i], Height-TallLength*2));
                 }
 
@@ -257,7 +260,8 @@ namespace ZYCControl
                     int vp = Height - ScalePixelTall[i];
                     g.DrawLine(pen, new Point(1, vp), new Point(TallLength, vp));
                     g.DrawString(string.Format(infoStringFormat, tallInfo[i]), font,
-                        new SolidBrush(Color.Black), new Point(1, vp),new StringFormat(StringFormatFlags.DirectionVertical));
+                        new SolidBrush(Color.Black), new Point(TallLength, vp),
+                        new StringFormat(StringFormatFlags.DirectionVertical));
                 }
 
                 foreach (int m in ScalePixelMiddle)
