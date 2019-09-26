@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
-    public partial class Ascan_ : UserControl
+    public partial class LongStrip_ : UserControl
     {
         private bool firstZoom;
         public Plot2D ima;
@@ -25,7 +25,7 @@ namespace ZYCControl
             set
             {
                 _StartX = value;
-                ascanToolLayout1.StartX = value;
+                longStripToolLayout1.StartX = value;
             }
             get { return _StartX; }
         }
@@ -38,7 +38,7 @@ namespace ZYCControl
             set
             {
                 _EndX = value;
-                ascanToolLayout1.EndX =
+                longStripToolLayout1.EndX =
                 value;
             }
             get { return _EndX; }
@@ -52,7 +52,7 @@ namespace ZYCControl
             set
             {
                 _StepX = value;
-                ascanToolLayout1.StepX =
+                longStripToolLayout1.StepX =
                 value;
             }
             get { return _StepX; }
@@ -66,7 +66,7 @@ namespace ZYCControl
             set
             {
                 _StartY = value;
-                ascanToolLayout1.StartY =
+                longStripToolLayout1.StartY =
                 value;
             }
             get { return _StartY; }
@@ -80,7 +80,7 @@ namespace ZYCControl
             set
             {
                 _EndY = value;
-                ascanToolLayout1.EndY =
+                longStripToolLayout1.EndY =
                 value;
             }
             get { return _EndY; }
@@ -94,16 +94,16 @@ namespace ZYCControl
             set
             {
                 _StepY = value;
-                ascanToolLayout1.StepY =
+                longStripToolLayout1.StepY =
                 value;
             }
             get { return _StepY; }
         }
 
-        public Ascan_()
+        public LongStrip_()
         {
             InitializeComponent();
-            
+
             EventAndRespone();
         }
         /// <summary>
@@ -130,13 +130,13 @@ namespace ZYCControl
             Invalidate();
         }
 
-        private void ascanToolLayout1_KeyPress(object sender, KeyPressEventArgs e)
+        private void longStripToolLayout1_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == 32)
             {
                 ima.DisplayZoneMin = new double[2] { 0, 0 };
                 ima.DisplayZoneMax = new double[2] { 1, 1 };
-                
+
                 firstZoom = true;
 
                 StartX = ima.x0;
@@ -150,7 +150,7 @@ namespace ZYCControl
             }
         }
 
-        private void ascanToolLayout1_SizeChanged(object sender, EventArgs e)
+        private void longStripToolLayout1_SizeChanged(object sender, EventArgs e)
         {
             if (ima != null)
             {
@@ -172,19 +172,19 @@ namespace ZYCControl
             {
                 if (firstZoom)
                 {
-                    ima.DisplayZoneMin[0] = zoomRectangle.X / (float)(Width-1);
-                    ima.DisplayZoneMin[1] = zoomRectangle.Y / (float)(Height-1);
-                    ima.DisplayZoneMax[0] = (zoomRectangle.X + zoomRectangle.Width - 1) / (float)(Width-1);
-                    ima.DisplayZoneMax[1] = (zoomRectangle.Y + zoomRectangle.Height - 1) / (float)(Height-1);
+                    ima.DisplayZoneMin[0] = zoomRectangle.X / (float)(Width - 1);
+                    ima.DisplayZoneMin[1] = zoomRectangle.Y / (float)(Height - 1);
+                    ima.DisplayZoneMax[0] = (zoomRectangle.X + zoomRectangle.Width - 1) / (float)(Width - 1);
+                    ima.DisplayZoneMax[1] = (zoomRectangle.Y + zoomRectangle.Height - 1) / (float)(Height - 1);
                     wt = ima.DisplayZoneMax[0] - ima.DisplayZoneMin[0];
                     ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
                 }
                 else
                 {
-                    ima.DisplayZoneMax[0] = (zoomRectangle.X + zoomRectangle.Width-1) / (float)(Width-1) * wt + ima.DisplayZoneMin[0];
-                    ima.DisplayZoneMax[1] = (zoomRectangle.Y + zoomRectangle.Height-1) / (float)(Height-1) * ht + ima.DisplayZoneMin[1];
-                    ima.DisplayZoneMin[0] += zoomRectangle.X / (float)(Width-1) * wt;
-                    ima.DisplayZoneMin[1] += zoomRectangle.Y / (float)(Height-1) * ht;
+                    ima.DisplayZoneMax[0] = (zoomRectangle.X + zoomRectangle.Width - 1) / (float)(Width - 1) * wt + ima.DisplayZoneMin[0];
+                    ima.DisplayZoneMax[1] = (zoomRectangle.Y + zoomRectangle.Height - 1) / (float)(Height - 1) * ht + ima.DisplayZoneMin[1];
+                    ima.DisplayZoneMin[0] += zoomRectangle.X / (float)(Width - 1) * wt;
+                    ima.DisplayZoneMin[1] += zoomRectangle.Y / (float)(Height - 1) * ht;
                     wt = ima.DisplayZoneMax[0] - ima.DisplayZoneMin[0];
                     ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
                 }
@@ -209,7 +209,7 @@ namespace ZYCControl
 
         private void EventAndRespone()
         {
-            ascanToolLayout1.RangeChanged += new RangeChangedHandleEvent(CalRealZoomRect);
+            longStripToolLayout1.RangeChanged += new RangeChangedHandleEvent(CalRealZoomRect);
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -232,11 +232,15 @@ namespace ZYCControl
             {
                 ima.DisplayZoneMin[0] = (range[0] - ima.x0) / ima.xw;
                 ima.DisplayZoneMax[0] = (range[1] - ima.x0) / ima.xw;
+                longStripToolLayout1.StartX = range[0];
+                longStripToolLayout1.EndX = range[1];
             }
             else
             {
                 ima.DisplayZoneMin[1] = -(range[1] - ima.y1) / ima.yh;
                 ima.DisplayZoneMax[1] = -(range[0] - ima.y1) / ima.yh;
+                longStripToolLayout1.StartY = range[0];
+                longStripToolLayout1.EndY = range[1];
             }
             wt = ima.DisplayZoneMax[0] - ima.DisplayZoneMin[0];
             ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];

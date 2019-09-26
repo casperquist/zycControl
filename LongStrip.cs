@@ -24,7 +24,7 @@ namespace ZYCControl
         private DataTips tips;
         private bool firstZoom;
         public Plot2D ima;
-        private float wt, ht;
+        private double wt, ht;
         /// <summary>
         /// 输出信息的字体
         /// </summary>
@@ -149,8 +149,8 @@ namespace ZYCControl
             ima.Refresh(true);
             //ima.inputData.ReSet();
 
-            ima.DisplayZoneMin = new float[2] { 0, 0 };
-            ima.DisplayZoneMax = new float[2] { 1, 1 };
+            ima.DisplayZoneMin = new double[2] { 0, 0 };
+            ima.DisplayZoneMax = new double[2] { 1, 1 };
             ima.Refresh(true);
             firstZoom = true;
 
@@ -276,10 +276,10 @@ namespace ZYCControl
                 }
 
                 RangeChange?.Invoke(new float[] {
-                    ima.x0 + ima.xw * ima.DisplayZoneMin[0],
-                    ima.x0 + ima.xw * ima.DisplayZoneMax[0],
-                    ima.y1 - ima.yh * ima.DisplayZoneMax[1],
-                    ima.y1 - ima.yh * ima.DisplayZoneMin[1]});
+                    (float)(ima.x0 + ima.xw * ima.DisplayZoneMin[0]),
+                    (float)(ima.x0 + ima.xw * ima.DisplayZoneMax[0]),
+                    (float)(ima.y1 - ima.yh * ima.DisplayZoneMax[1]),
+                    (float)(ima.y1 - ima.yh * ima.DisplayZoneMin[1])});
 
                 firstZoom = false;
                 ima.Refresh(true);
@@ -338,8 +338,8 @@ namespace ZYCControl
         {
             if (enable)
             {
-                float yrange = ima.yh * (ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1]);
-                float ystart = ima.yh * (1 - ima.DisplayZoneMax[1]) + ima.y0;
+                double yrange = ima.yh * (ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1]);
+                double ystart = ima.yh * (1 - ima.DisplayZoneMax[1]) + ima.y0;
                 int y = (int)(((-value + ystart) / yrange + 1) * ima.ControlHeight);
                 if (y >= 0 & y <= ima.ControlHeight)
                 {

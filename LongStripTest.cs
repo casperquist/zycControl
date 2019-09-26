@@ -10,13 +10,13 @@ using System.Windows.Forms;
 
 namespace ZYCControl
 {
-    public partial class ToolTest : Form
+    public partial class LongStripTest : Form
     {
-        public ToolTest()
+        public LongStripTest()
         {
             InitializeComponent();
+            
         }
-
         
     }
 }

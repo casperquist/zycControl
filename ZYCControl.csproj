@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{16E42840-ACCF-45E4-A360-F27B6518093A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ZYCControl</RootNamespace>
     <AssemblyName>ZYCControl</AssemblyName>
@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AscanInfoShow.cs" />
     <Compile Include="Ascan_.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -121,6 +122,7 @@
     <Compile Include="FigurePlot2D.Designer.cs">
       <DependentUpon>FigurePlot2D.cs</DependentUpon>
     </Compile>
+    <Compile Include="JudgeLine.cs" />
     <Compile Include="LongStrip.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -133,11 +135,29 @@
     <Compile Include="LongStripForm.Designer.cs">
       <DependentUpon>LongStripForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LongStripTest.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LongStripTest.Designer.cs">
+      <DependentUpon>LongStripTest.cs</DependentUpon>
+    </Compile>
     <Compile Include="LongStripToolLayout.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LongStripToolLayout.Designer.cs">
       <DependentUpon>LongStripToolLayout.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LongStrip_.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LongStrip_.Designer.cs">
+      <DependentUpon>LongStrip_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LongStrip_Ruler.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LongStrip_Ruler.Designer.cs">
+      <DependentUpon>LongStrip_Ruler.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -259,6 +279,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LongStripForm.resx">
       <DependentUpon>LongStripForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LongStripTest.resx">
+      <DependentUpon>LongStripTest.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LongStripToolLayout.resx">
+      <DependentUpon>LongStripToolLayout.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LongStrip_.resx">
+      <DependentUpon>LongStrip_.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LongStrip_Ruler.resx">
+      <DependentUpon>LongStrip_Ruler.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

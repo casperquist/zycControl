@@ -1468,11 +1468,11 @@ namespace ZYCControl
         /// <summary>
         /// 全局的缩放起始点（比例值）
         /// </summary>
-        public float[] DisplayZoneMin = new float[2] { 0, 0 };
+        public double[] DisplayZoneMin = new double[2] { 0, 0 };
         /// <summary>
         /// 全局的缩放结束点（比例值）
         /// </summary>
-        public float[] DisplayZoneMax = new float[2] { 1, 1 };
+        public double[] DisplayZoneMax = new double[2] { 1, 1 };
         public int ControlWidth;
         public int ControlHeight;
         private List<bool[]> inG;
@@ -1488,7 +1488,7 @@ namespace ZYCControl
         /// 换算的显示宽度和高度(像素)
         /// ，大于等于ControlWidth，ControlHeight
         /// </summary>
-        public float width0,height0;
+        public double width0,height0;
         /// <summary>
         /// x1-x0;y1-y0
         /// </summary>
@@ -1544,10 +1544,10 @@ namespace ZYCControl
             width0 = ControlWidth / (DisplayZoneMax[0] - DisplayZoneMin[0]);
             height0 = ControlHeight / (DisplayZoneMax[1] - DisplayZoneMin[1]);
             seriesNum = rawData.Count();
-            DisPlayZoneMinP.x = width0 * DisplayZoneMin[0];
-            DisPlayZoneMinP.y = height0 * DisplayZoneMin[1];
-            DisPlayZoneMaxP.x = width0 * DisplayZoneMax[0];
-            DisPlayZoneMaxP.y = height0 * DisplayZoneMax[1];
+            DisPlayZoneMinP.x = (float)(width0 * DisplayZoneMin[0]);
+            DisPlayZoneMinP.y = (float)(height0 * DisplayZoneMin[1]);
+            DisPlayZoneMaxP.x = (float)(width0 * DisplayZoneMax[0]);
+            DisPlayZoneMaxP.y = (float)(height0 * DisplayZoneMax[1]);
 
             if (inG != null)
                 inG.Clear();
@@ -1688,7 +1688,7 @@ namespace ZYCControl
         public List<float[]> PixelToData(int x, out int pointX, out List<int> pointY)
         {
             List<float[]> result = new List<float[]>(seriesNum);
-            float px = (x + DisPlayZoneMinP.x) / width0 * xw + x0;
+            float px = (float)((x + DisPlayZoneMinP.x) / width0 * xw + x0);
             List<float> allX = new List<float>(seriesNum * 100000);
             for (int i = 0; i < seriesNum; i++)
             {
@@ -1723,8 +1723,8 @@ namespace ZYCControl
         private int CalYpixel(float y)
         {
             int pixelY = 0;
-            float range = yh * (DisplayZoneMax[1] - DisplayZoneMin[1]);
-            float start = yh * (1 - DisplayZoneMax[1]) + y0;
+            double range = yh * (DisplayZoneMax[1] - DisplayZoneMin[1]);
+            double start = yh * (1 - DisplayZoneMax[1]) + y0;
             return pixelY = (int)(((-y + start) / range + 1) * ControlHeight); ;
         }
 
@@ -1885,8 +1885,8 @@ namespace ZYCControl
         {
             Point2Dim tmp = new Point2Dim
             {
-                x = width0 * (Data[0] - x0) / xw,
-                y = height0 - height0 * (Data[1] - y0) / yh
+                x = (float)((width0-1) * (Data[0] - x0) / xw),
+                y = (float)((height0-1) - (height0-1) * (Data[1] - y0) / yh)
             };
 
             pixel = tmp;

@@ -1,6 +1,6 @@
 ﻿namespace ZYCControl
 {
-    partial class Ascan_Ruler
+    partial class LongStrip_Ruler
     {
         /// <summary> 
         /// 必需的设计器变量。
@@ -28,24 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ascan_1 = new ZYCControl.Ascan_();
             this.rulerBarV = new ZYCControl.RulerBar();
             this.rulerBarH = new ZYCControl.RulerBar();
+            this.longStrip_1 = new ZYCControl.LongStrip_();
             this.SuspendLayout();
-            // 
-            // ascan_1
-            // 
-            this.ascan_1.EndX = 0F;
-            this.ascan_1.EndY = 0F;
-            this.ascan_1.Location = new System.Drawing.Point(30, 0);
-            this.ascan_1.Name = "ascan_1";
-            this.ascan_1.Size = new System.Drawing.Size(300, 300);
-            this.ascan_1.StartX = 0F;
-            this.ascan_1.StartY = 0F;
-            this.ascan_1.StepX = 0F;
-            this.ascan_1.StepY = 0F;
-            this.ascan_1.TabIndex = 0;
-            this.ascan_1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.ascan_1_MouseMove);
             // 
             // rulerBarV
             // 
@@ -53,8 +39,7 @@
             this.rulerBarV.Location = new System.Drawing.Point(0, 0);
             this.rulerBarV.Name = "rulerBarV";
             this.rulerBarV.Size = new System.Drawing.Size(30, 300);
-            this.rulerBarV.TabIndex = 1;
-            this.rulerBarV.Parent = this;
+            this.rulerBarV.TabIndex = 0;
             // 
             // rulerBarH
             // 
@@ -62,28 +47,40 @@
             this.rulerBarH.Location = new System.Drawing.Point(30, 300);
             this.rulerBarH.Name = "rulerBarH";
             this.rulerBarH.Size = new System.Drawing.Size(300, 30);
-            this.rulerBarH.TabIndex = 2;
+            this.rulerBarH.TabIndex = 1;
             this.rulerBarH.HoriBar = true;
-            this.rulerBarH.Parent = this;
             // 
-            // Ascan_Ruler
+            // longStrip_1
+            // 
+            this.longStrip_1.EndX = 0F;
+            this.longStrip_1.EndY = 0F;
+            this.longStrip_1.Location = new System.Drawing.Point(30, 0);
+            this.longStrip_1.Name = "longStrip_1";
+            this.longStrip_1.Size = new System.Drawing.Size(300, 300);
+            this.longStrip_1.StartX = 0F;
+            this.longStrip_1.StartY = 0F;
+            this.longStrip_1.StepX = 0F;
+            this.longStrip_1.StepY = 0F;
+            this.longStrip_1.TabIndex = 2;
+            // 
+            // LongStrip_Ruler
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.longStrip_1);
             this.Controls.Add(this.rulerBarH);
             this.Controls.Add(this.rulerBarV);
-            this.Controls.Add(this.ascan_1);
-            this.Name = "Ascan_Ruler";
+            this.Name = "LongStrip_Ruler";
             this.Size = new System.Drawing.Size(330, 330);
-            this.SizeChanged += new System.EventHandler(this.Ascan_Ruler_SizeChanged);
+            this.SizeChanged += new System.EventHandler(this.LongStrip_Ruler_SizeChanged);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        public Ascan_ ascan_1;
-        private RulerBar rulerBarV;
-        private RulerBar rulerBarH;
+        public RulerBar rulerBarV;
+        public RulerBar rulerBarH;
+        public LongStrip_ longStrip_1;
     }
 }

@@ -51,8 +51,6 @@ D:\code\VC#\ZYCControl\obj\Debug\ZYCControl.pdb
 D:\code\VC#\ZYCControl\obj\Debug\ZYCControl.FigCursors.resources
 D:\code\VC#\ZYCControl\obj\Debug\ZYCControl.Ultravision2D.resources
 D:\code\VC#\ZYCControl\obj\Debug\ZYCControl.Ultravision2DForm.resources
-D:\code\zycControl\bin\Debug\ZYCControl.exe.config
-D:\code\zycControl\bin\Debug\ZYCControl.exe
 D:\code\zycControl\bin\Debug\ZYCControl.pdb
 D:\code\zycControl\obj\Debug\ZYCControl.AscanTest.resources
 D:\code\zycControl\obj\Debug\ZYCControl.AscanToolLayout.resources
@@ -78,6 +76,13 @@ D:\code\zycControl\obj\Debug\ZYCControl.UltravisionField.resources
 D:\code\zycControl\obj\Debug\ZYCControl.UltravisionFieldRB.resources
 D:\code\zycControl\obj\Debug\ZYCControl.csproj.GenerateResource.Cache
 D:\code\zycControl\obj\Debug\ZYCControl.csproj.CoreCompileInputs.cache
-D:\code\zycControl\obj\Debug\ZYCControl.exe
 D:\code\zycControl\obj\Debug\ZYCControl.pdb
 D:\code\ZYCControl\obj\Debug\ZYCControl.Ascan_.resources
+D:\code\ZYCControl\obj\Debug\ZYCControl.Ascan_Ruler.resources
+D:\code\zycControl\obj\Debug\ZYCControl.LongStrip_.resources
+D:\code\zycControl\obj\Debug\ZYCControl.LongStrip_Ruler.resources
+D:\code\zycControl\obj\Debug\ZYCControl.LongStripTest.resources
+D:\code\zycControl\obj\Debug\ZYCControl.LongStripToolLayout.resources
+D:\code\ZYCControl\bin\Debug\ZYCControl.dll.config
+D:\code\ZYCControl\bin\Debug\ZYCControl.dll
+D:\code\ZYCControl\obj\Debug\ZYCControl.dll

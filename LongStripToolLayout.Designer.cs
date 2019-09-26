@@ -28,8 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.SuspendLayout();
+            // 
+            // LongStripToolLayout
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Transparent;
+            this.DoubleBuffered = true;
+            this.Name = "LongStripToolLayout";
+            this.SizeChanged += new System.EventHandler(this.LongSrtipToolLayout_SizeChanged);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.LongSrtipToolLayout_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.LongSrtipToolLayout_KeyUp);
+            this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.LongSrtipToolLayout_MouseDoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.LongSrtipToolLayout_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.LongSrtipToolLayout_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.LongSrtipToolLayout_MouseUp);
+            this.ResumeLayout(false);
+
         }
 
         #endregion

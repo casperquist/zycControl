@@ -18,7 +18,7 @@ namespace ZYCControl
         private DataTips tips;
         private bool firstZoom;
         public Plot2D ima;
-        private float wt, ht;
+        private double wt, ht;
 
         public FigurePlot2D()
         {
@@ -68,8 +68,8 @@ namespace ZYCControl
             ima.Refresh(true);
             //ima.inputData.ReSet();
             
-            ima.DisplayZoneMin = new float[2] { 0, 0 };
-            ima.DisplayZoneMax = new float[2] { 1, 1 };
+            ima.DisplayZoneMin = new double[2] { 0, 0 };
+            ima.DisplayZoneMax = new double[2] { 1, 1 };
             ima.Refresh(true);
             firstZoom = true;
         }

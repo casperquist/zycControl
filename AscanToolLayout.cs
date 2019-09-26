@@ -344,8 +344,9 @@ namespace ZYCControl
                     EndX = ex;
                     StartY = sy;
                     EndY = ey;
-                    RangeChanged?.Invoke(new float[] {xa, ya, xb-xa, yb-ya,
-                        (float)sx,(float)ex,(float)sy,(float)ey });
+                    RangeChanged?.Invoke(new float[] {
+                        StartX,EndX,StartY,EndY,
+                    zoomRegion.minX,zoomRegion.minY,zoomRegion.width,zoomRegion.height});
                 }
             }
             zoomRegion = null;

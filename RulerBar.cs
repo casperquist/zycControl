@@ -231,7 +231,7 @@ namespace ZYCControl
         private void DrawScale(int TallLength, int MiddleLength, int ShortLength)
         {
             Pen pen = new Pen(Color.Black);
-            Font font = new Font("宋体", 8);
+            Font font = new Font("Times New Roman", 9F);
             int n = ScalePixelTall.Count;
 
             if (HoriBar)
