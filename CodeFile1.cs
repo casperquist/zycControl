@@ -15,7 +15,7 @@ namespace ZYCControl
             int b = a;
             a = 10;*/
             //figureTest();
-
+            //Tooltest();
         }
             
         static void LsTest(bool last)
@@ -85,7 +85,7 @@ namespace ZYCControl
             //rt.ShowDialog();
         }
 
-        /*static void AscanTestt()
+        static void AscanTestt()
         {
             int num = 360;
             float[] x = new float[num];
@@ -98,7 +98,7 @@ namespace ZYCControl
             series a = new series(x, y);
             List<series> list = new List<series>() { a};
            
-            ascan_Ruler1.ascan_1.StepX = 1;
+            /*ascan_Ruler1.ascan_1.StepX = 1;
             ascan_Ruler1.ascan_1.StepY = 0.001f;
             ascan_Ruler1.ascan_1.StartX = x[0];
             ascan_Ruler1.ascan_1.EndX = x[num - 1];
@@ -113,10 +113,10 @@ namespace ZYCControl
             ascan_Ruler1.ReDrawRuler();
 
             StartPosition = FormStartPosition.CenterScreen;
-            ShowDialog();
+            ShowDialog();*/
             
             
-        }*/
+        }
 
         static void figureTest()
         {
@@ -148,10 +148,20 @@ namespace ZYCControl
 
         static void Ascan()
         {
-            /*ascanTest = new ;
-            ascanTest.StartPosition = FormStartPosition.CenterScreen;*/
-            
-            /*ascanTest.ascanToolLayout.StepX = 1;
+            /*int num = 360;
+            float[] x = new float[num];
+            float[] y = new float[num];
+            for (int i = 0; i < num; i++)
+            {
+                x[i] = (float)((i - 180));
+                y[i] = 0.0f;
+            }
+            series a = new series(x, y);
+            List<series> list = new List<series>() { a };
+            ToolTest ascanTest = new AscanTest(x,y);
+            ascanTest.StartPosition = FormStartPosition.CenterScreen;
+
+            ascanTest.ascanToolLayout.StepX = 1;
             ascanTest.ascanToolLayout.StartX = 0;
             ascanTest.ascanToolLayout.EndX = 1024;
             ascanTest.ascanToolLayout.StepY = 0.5f;
@@ -162,7 +172,7 @@ namespace ZYCControl
             ascanTest.ascanToolLayout.gate0.Threshold = 512;
             ascanTest.ascanToolLayout.gate0.Start = 100;
             ascanTest.ascanToolLayout.gate0.End = 150;*/
-            
+
 
             //ascanTest.ShowDialog();
         }
@@ -195,25 +205,60 @@ namespace ZYCControl
             }
             series a = new series(x, y);
             List<series> list = new List<series>() { a };
-            /*LongStripTest = new LongStripTest();
-            longStripRuler.longStrip_1.StepX = 1;
-            longStripRuler.longStrip_1.StepY = 0.001f;
-            longStripRuler.longStrip_1.StartX = x[0];
-            longStripRuler.longStrip_1.EndX = x[num - 1];
-            longStripRuler.longStrip_1.StartY = -1;
-            longStripRuler.longStrip_1.EndY = 1;
-            longStripRuler.longStrip_1.NewImage(list, true, new float[] { x[0], x[num - 1], -1, 1 });
-            longStripRuler.longStrip_1.longStripToolLayout1.JudgeLine0.InfoFormat = "{0:0.000}";
-            longStripRuler.longStrip_1.longStripToolLayout1.JudgeLine1.InfoFormat = "{0:0.000}";
-            longStripRuler.longStrip_1.longStripToolLayout1.JudgeLine0.Y = 0.5f;
-            longStripRuler.longStrip_1.longStripToolLayout1.JudgeLine1.Y = -0.5f;
-            longStripRuler.longStrip_1.longStripToolLayout1.JudgeLine0.Enable = true;
-            longStripRuler.longStrip_1.longStripToolLayout1.infoShow.data = list;
-            longStripRuler.longStrip_1.longStripToolLayout1.infoShow.startx0 = x[0];
-            longStripRuler.ReDrawRuler();
+            LongStripTest ls = new LongStripTest();
+            LongStrip_Ruler lsr = ls.longStrip_Ruler1;
+            lsr.longStrip_1.StepX = 1;
+            lsr.longStrip_1.StepY = 0.001f;
+            lsr.longStrip_1.StartX = x[0];
+            lsr.longStrip_1.EndX = x[num - 1];
+            lsr.longStrip_1.StartY = -1;
+            lsr.longStrip_1.EndY = 1;
+            lsr.longStrip_1.NewImage(list, true, new float[] { x[0], x[num - 1], -1, 1 });
+            lsr.longStrip_1.longStripToolLayout1.JudgeLine0.InfoFormat = "{0:0.000}";
+            lsr.longStrip_1.longStripToolLayout1.JudgeLine1.InfoFormat = "{0:0.000}";
+            lsr.longStrip_1.longStripToolLayout1.JudgeLine0.Y = 0.5f;
+            lsr.longStrip_1.longStripToolLayout1.JudgeLine1.Y = -0.5f;
+            lsr.longStrip_1.longStripToolLayout1.JudgeLine0.Enable = true;
+            lsr.longStrip_1.longStripToolLayout1.infoShow.data = list;
+            lsr.longStrip_1.longStripToolLayout1.infoShow.startx0 = x[0];
+            lsr.ReDrawRuler();
 
-            StartPosition = FormStartPosition.CenterScreen;
-            ShowDialog();*/
+            ls.StartPosition = FormStartPosition.CenterParent;
+            ls.ShowDialog();
+        }
+
+        static void Tooltest()
+        {
+            int num = 360;
+            float[] x = new float[num];
+            float[] y = new float[num];
+            for (int i = 0; i < num; i++)
+            {
+                x[i] = (float)((i - 180));
+                y[i] = (float)(Math.Sin(x[i]*Math.PI/180)*100);
+            }
+            series a = new series(x, y);
+            List<series> list = new List<series>() { a };
+
+            ToolTest toolTest = new ToolTest();
+            toolTest.ascan_Ruler1.ascan_1.NewImage(list,true,new float[] { -180,180,-100,100});
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.StepX = 1;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.StepY = 0.1f;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.StartX = 0;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.EndX = 360;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.StartY = -100;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.EndY = 100;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.MeasureC.Enable = false;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.ReferenceC.Enable = false;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.gate1.Enable = true;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.gate1.Start = 10;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.gate1.End = 50;
+            toolTest.ascan_Ruler1.ascan_1.ascanToolLayout1.gate1.Threshold = 10;
+
+            //toolTest.ascan_Ruler1.ReDrawRuler();
+            //toolTest.ascan_Ruler1.Invalidate();
+            toolTest.ascan_Ruler1.ascan_1.Reset();
+            toolTest.ShowDialog();
         }
         
     }

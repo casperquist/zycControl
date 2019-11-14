@@ -11,6 +11,7 @@ using System.Windows.Forms;
 namespace ZYCControl
 {
     public delegate void RangeChangedHandleEvent(float[] range);
+    public delegate void MarkChangeHandleEvent(float[] mark);
     public partial class LongStrip : UserControl
     {
         public LongStrip()

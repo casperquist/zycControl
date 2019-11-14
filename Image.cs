@@ -1925,8 +1925,9 @@ namespace ZYCControl
                 m = 1;
             }
             Point2Dim cp = new Point2Dim();
-            minp.Clone(out Point2Dim a0);
-            maxp.Clone(out Point2Dim a2);
+            Point2Dim a0, a2;
+            minp.Clone(out a0);
+            maxp.Clone(out a2);
             Point2Dim a1 = new Point2Dim(maxp.x, minp.y);
             Point2Dim a3 = new Point2Dim(minp.x, maxp.y);
             

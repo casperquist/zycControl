@@ -20,6 +20,8 @@ namespace ZYCControl
         public ZoomRegion zoomRegion;
         private bool AltIsDown, ControlIsDown, ShiftIsDown, SpaceIsDown;
         public event RangeChangedHandleEvent RangeChanged;
+        public event MarkChangeHandleEvent GateChanged;
+        public event MarkChangeHandleEvent CursorChange;
         private bool MouseIsInControl;
         private string MouseState;
         /// <summary>
@@ -476,7 +478,18 @@ namespace ZYCControl
                 MeasureC.XPixel = p.X;
             if (MeasureC.SelectedY)
                 MeasureC.YPixel = p.Y;
-            
+
+            if (ReferenceC.Selected)
+                CursorChange?.Invoke(new float[]
+                {
+                    0,ReferenceC.X,ReferenceC.Y
+                });
+            else
+                CursorChange?.Invoke(new float[]
+                {
+                    1,MeasureC.X,MeasureC.Y
+                });
+
             Invalidate();
 
         }
@@ -521,6 +534,10 @@ namespace ZYCControl
                 gate.StartPixel = p.X;
             if (MouseState.Contains("end"))
                 gate.EndPixel = p.X;
+
+            float num = Convert.ToSingle(gate.Name.Substring(4));
+            GateChanged?.Invoke(new float[] {
+            num,gate.Start,gate.End,gate.Threshold});
         }
 
         /// <summary>

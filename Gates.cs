@@ -1,17 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ZYCControl
 {
-    public class Gates
+    public class Gates: INotifyPropertyChanged
     {
         public bool Enable;
         public Color color;
         public string Name;
         private int _ThresholdPixel;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged<T>(Expression<Func<T>> property)
+        {
+            if (PropertyChanged == null)
+                return;
+
+            var memberExpression = property.Body as MemberExpression;
+            if (memberExpression == null)
+                return;
+
+            PropertyChanged.Invoke(this, new PropertyChangedEventArgs(memberExpression.Member.Name));
+        }
         /// <summary>
         /// 闸门阈值(像素点)
         /// </summary>

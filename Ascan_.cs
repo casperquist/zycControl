@@ -244,5 +244,25 @@ namespace ZYCControl
             ima.Refresh(true);
             Invalidate();
         }
+
+        /// <summary>
+        /// 用来重置图片，等于按了一次空格键
+        /// </summary>
+        public void Reset()
+        {
+            ima.DisplayZoneMin = new double[2] { 0, 0 };
+            ima.DisplayZoneMax = new double[2] { 1, 1 };
+
+            firstZoom = true;
+
+            StartX = ima.x0;
+            EndX = ima.x1;
+            StartY = ima.y0;
+            EndY = ima.y1;
+
+            RangeChange?.Invoke(new float[] {
+                    ima.x0, ima.x1, ima.y0, ima.y1});
+            Invalidate();
+        }
     }
 }
