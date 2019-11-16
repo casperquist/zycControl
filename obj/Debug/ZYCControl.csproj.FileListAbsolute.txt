@@ -83,10 +83,6 @@ D:\code\zycControl\obj\Debug\ZYCControl.LongStrip_.resources
 D:\code\zycControl\obj\Debug\ZYCControl.LongStrip_Ruler.resources
 D:\code\zycControl\obj\Debug\ZYCControl.LongStripTest.resources
 D:\code\zycControl\obj\Debug\ZYCControl.LongStripToolLayout.resources
-D:\code\ZYCControl\obj\Debug\ZYCControl.csprojResolveAssemblyReference.cache
-D:\code\zycControl\bin\Debug\ZYCControl.exe.config
-D:\code\zycControl\bin\Debug\ZYCControl.exe
-D:\code\zycControl\obj\Debug\ZYCControl.exe
 F:\zycControl\obj\Debug\ZYCControl.pdb
 F:\zycControl\obj\Debug\ZYCControl.Ascan_.resources
 F:\zycControl\obj\Debug\ZYCControl.AscanTest.resources
@@ -122,3 +118,7 @@ F:\zycControl\obj\Debug\ZYCControl.csprojResolveAssemblyReference.cache
 F:\zycControl\bin\Debug\ZYCControl.exe.config
 F:\zycControl\bin\Debug\ZYCControl.exe
 F:\zycControl\obj\Debug\ZYCControl.exe
+D:\code\zycControl\bin\Debug\ZYCControl.dll.config
+D:\code\zycControl\bin\Debug\ZYCControl.dll
+D:\code\zycControl\obj\Debug\ZYCControl.dll
+D:\code\zycControl\obj\Debug\ZYCControl.csprojResolveAssemblyReference.cache

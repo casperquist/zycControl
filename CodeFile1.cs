@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using System.Linq;
 
 namespace ZYCControl
 {
@@ -9,6 +10,9 @@ namespace ZYCControl
     {
         static void Main(string[] args)
         {
+            Dictionary<int, string> a = new Dictionary<int, string>() { { 1, "1" }, { 5, "5" }, { 3, "3" } };
+            Dictionary<int, string> a1 = a.OrderBy(o => o.Key).ToDictionary(o => o.Key, p => p.Value);
+            System.Drawing.Rectangle rectangle = new System.Drawing.Rectangle();
             LongStripTest();
             //AscanTestt();
             /*int a = 5;
@@ -198,16 +202,40 @@ namespace ZYCControl
             int num = 360;
             float[] x = new float[num];
             float[] y = new float[num];
+            float[] y2 = new float[num];
+            float[] y3 = new float[num];
+
             for (int i = 0; i < num; i++)
             {
                 x[i] = (float)((i - 180));
                 y[i] = (float)Math.Sin(i * Math.PI / 180);
+                y2[i] = (float)Math.Sin((i+10) * Math.PI / 180);
+                y3[i] = (float)Math.Sin((i + 20) * Math.PI / 180);
             }
             series a = new series(x, y);
-            List<series> list = new List<series>() { a };
+            series b = new series(x, y2);
+            series c = new series(x, y3);
+            List<series> list = new List<series>() { a,b,c };
             LongStripTest ls = new LongStripTest();
-            LongStrip_Ruler lsr = ls.longStrip_Ruler1;
-            lsr.longStrip_1.StepX = 1;
+            ls.startX = x[0];
+            ls.endX = x[num - 1];
+            ls.startY = -1;
+            ls.endY = 1;
+            ls.stepX = x[1] - x[0];
+            ls.stepY = 0.001f;
+            ls.data = list;
+            ls.judge0Enable = true;
+            ls.judge1Enable = true;
+            ls.judge1Color = System.Drawing.Color.Red;
+            ls.judge0Color = System.Drawing.Color.Red;
+            ls.judge0Y = -0.5f;
+            ls.judge1y = 0.5f;
+            ls.InfoFormat = "{0:0.000}";
+            ls.tipFont = new System.Drawing.Font("宋体", 16);
+            ls.tipFormat = "0.000";
+            ls.Initial(true);
+            /*LongStrip_Ruler lsr = ls.longStrip_Ruler1;
+            lsr.longStrip_1.StepX = x[1]-x[0];
             lsr.longStrip_1.StepY = 0.001f;
             lsr.longStrip_1.StartX = x[0];
             lsr.longStrip_1.EndX = x[num - 1];
@@ -224,7 +252,7 @@ namespace ZYCControl
             lsr.ReDrawRuler();
 
             ls.StartPosition = FormStartPosition.CenterParent;
-            ls.ShowDialog();
+            ls.ShowDialog();*/
         }
 
         static void Tooltest()

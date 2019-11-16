@@ -331,8 +331,13 @@ namespace ZYCControl
 
         private void RublerBar_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            UpdataValue(SV0, EV0);
-            RangeChanged?.Invoke(new float[] { startValue, endValue, HoriBar ? 0 : 1 });
+            if (SV0 != EV0)
+            {
+                UpdataValue(SV0, EV0);
+                RangeChanged?.Invoke(new float[] { startValue, endValue, HoriBar ? 0 : 1 });
+            }
+            else
+                ResetRulerValue();
         }
 
         private void RublerBar_MouseDown(object sender, MouseEventArgs e)

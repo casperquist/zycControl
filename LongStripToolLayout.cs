@@ -169,7 +169,6 @@ namespace ZYCControl
             fc.YPixel = Y;
         }
 
-
         private void LongSrtipToolLayout_KeyUp(object sender, KeyEventArgs e)
         {
             var m = ModifierKeys;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,6 +14,7 @@ namespace ZYCControl
         public Font font;
         public string StrFormat;
         public float startx0;
+        public string UnitX, UnitY;
         
         public void Draw(Graphics g, float startx, float endx, float starty, float endy, 
             int posX, int width, int height, float stepx)
@@ -39,110 +41,112 @@ namespace ZYCControl
                         py[i] = (int)Math.Round(height - 1 - (y[i] - starty) * (height - 1.0) / (endy - starty));
                         c[i] = data[i].sColor;
                     }
-                    bool drawAll = DrawInfo(g, posX, py, y, c, height, n, width);
+                    bool drawAll = DrawInfo(g, posX, py, data[0].x[index], y, c, height, n, width);
                 }
             }
         }
 
-        private bool DrawInfo(Graphics g, int posx, int[] posy, float[] y, Color[] c, int height, int n, int width)
-        {           
-
-            SizeF ss = g.MeasureString(StrFormat, font);
-            Size s = new Size((int)ss.Width, (int)ss.Height);
-            List<Rectangle> existR = new List<Rectangle>(n);
-            //posx = posx > width / 2 ? posx - (int)s.Width+1 : posx;
-            bool infoR = false;
-            if (posx > width / 2)
-                infoR = true;
-
-            int[] partIndex = ResetOrder(ref posy, ref y, ref c, n, height);
-            int si, ei;
-            string info;
-            /// 画上半部分信息
-            si = partIndex[0];
-            ei = partIndex[1];
-            Rectangle rectangle = new Rectangle();
-            if (si > -1)
+        private bool DrawInfo(Graphics g, int posx, int[] posy, float x, float[] y, Color[] c, int height, int n, int width)
+        {    
+            ResetOrder(ref posy, ref y, ref c, n);
+            Rectangle preRect = new Rectangle();
+            int k = 0;
+            for (k = 0; k <n; k++)
             {
-                ei = ei == -1 ? n - 1 : ei;
-                for (int i = si; i<= ei; i++)
-                {
-                    g.DrawRectangle(new Pen(c[i]), posx - 1, posy[i] - 1, 2, 2);
-                    int py = posy[i];
-                    if (rectangle.Contains(posx, py))
-                        py = rectangle.Bottom + 1;
-                    if (py >= height)
-                        return false;
-                    info = y[i].ToString(StrFormat);
-                    if (infoR)
-                    { }
-                    g.DrawString(info, font, new SolidBrush(c[i]), posx + 1, py);
-                    rectangle = new Rectangle(posx, py, s.Width, s.Height);
-                }
+                if (posy[k] < height / 2)
+                    preRect = DarwSingle(g, posx, posy[k], x, y[k], c[k], height, width, preRect);
+                else
+                    break;
             }
-            int bottom = rectangle.Bottom;
-
-            /// 画下半部分信息
-            si = partIndex[1]+1;
-            ei = partIndex[2];
-            rectangle = new Rectangle();
-            if (si > 0)
+            preRect = new Rectangle();
+            preRect.Y = height;
+            for (int i = n-1; i>=k; i--)
             {
-                ei = ei < 0 ? n - 1 : ei;
-                for (int i = ei; i <= si; i--)
-                {
-                    g.DrawRectangle(new Pen(c[i]), posx , posy[i] - 1, 2, 2);
-                    int py = posy[i] - s.Height;
-                    if (rectangle.Contains(posx, py))
-                        py = rectangle.Top - s.Height;
-                    if (py < bottom)
-                        return false;
-                    g.DrawString(y[i].ToString(StrFormat), font, new SolidBrush(c[i]), posx + 1, py);
-                    rectangle = new Rectangle(posx, py, s.Width, s.Height);
-                }
+                preRect = DarwSingle(g, posx, posy[i], x, y[i], c[i], height, width, preRect);
             }
+            
             return true;
 
         }
 
-        private int[] ResetOrder(ref int[] posy, ref float[] y, ref Color[] c, int n, int height)
-        {
-            int midpy;
-            float midy;
-            Color midc;
-            float halfH = height / 2.0f;
-
-            for (int i = 0; i < n-1; i++)
-                for (int j = i; j < n-1; j++)
-                {
-                    if (y[j] < y[j+1])
-                    {
-                        midc = c[j];
-                        midpy = posy[j];
-                        midy = y[j];
-
-                        c[j] = c[j + 1];
-                        posy[j] = posy[j + 1];
-                        y[j] = y[j + 1];
-
-                        c[j + 1] = midc;
-                        y[j + 1] = midy;
-                        posy[j + 1] = midpy;
-                    }
-                }
-
-            List<int> list = new List<int>(n);
+        private void ResetOrder(ref int[] posy, ref float[] y, ref Color[] c, int n)
+        {            
+            Dictionary<int, paraOrder> a = new Dictionary<int, paraOrder>();
             for (int i = 0; i < n; i++)
-                list.Add(posy[i]);
+                a.Add(i,new paraOrder(posy[i],y[i],c[i]));
+            Dictionary<int, paraOrder> a1 = a.OrderBy(o => o.Value.posy).ToDictionary(o => o.Key, p => p.Value);
+            int k = 0;
+            foreach (var t in a1)
+            {
+                posy[k] = t.Value.posy;
+                y[k] = t.Value.y;
+                c[k] = t.Value.c;
+                k++;
+            }
 
-            int[] index = new int[3];
-            index[2] = list.FindIndex(t => t >= height) - 1;
-            index[1] = list.FindIndex(t => t <= height / 2);
-            index[0] = list.FindIndex(t => t >= 0);
-            return index;         
         }     
+        
+        private Rectangle DarwSingle(Graphics g, int posx, int posy, float x, float y, Color c, int height, int width, Rectangle preRect)
+        {
+            string info = x.ToString() +UnitX+ ";" + y.ToString(StrFormat)+UnitY;
+            SizeF ss = g.MeasureString(info, font);
+            Size s = new Size((int)ss.Width, (int)ss.Height);
+            Point p = new Point();
+            if (posx > width / 2)
+                p.X = posx - s.Width;
+            else
+                p.X = posx;
 
+            if (posy > height / 2)
+            {
+                p.Y = posy - s.Height;
+                if (posy> preRect.Y)
+                    p.Y = preRect.Y - s.Height;
+            }
+            else
+            {
+                p.Y = posy;
+                if (p.Y < preRect.Bottom)
+                    p.Y = preRect.Y + s.Height;
+            }
+            g.DrawString(info, font, new SolidBrush(c), p);
+            return new Rectangle(p, s);
+        }
+
+        private void ExchangeOder(ref int[] posy, ref float[] y, ref Color[] c, int a, int b)
+        {
+            int midp = posy[a];
+            float midy = y[a];
+            Color midc = c[a];
+            posy[a] = posy[b];
+            y[a] = y[b];
+            c[a] = c[b];
+            posy[b] = midp; ;
+            y[b] = midy;
+            c[b] = midc;
+        }
         
-        
+        private float StringWidth(Graphics g, string info)
+        {
+            return g.MeasureString(info, font).Width;
+        }
+
+        class paraOrder
+        {
+            public int posy;
+            public float y;
+            public Color c;
+
+            public paraOrder(int a, float b, Color s)
+            {
+                posy = a;
+                y = b;
+                c = s;
+            }
+        }
+
     }
+
+    
+
 }
