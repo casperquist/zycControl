@@ -1453,9 +1453,8 @@ namespace ZYCControl
         public List<series> rawData
         {
             get { return _rawData; }
-            set { _rawData = value; }
+            set {_rawData = value; }
         }
-        public List<series> preData;
            
         public Bitmap bmp;
         /// <summary>
@@ -1500,29 +1499,55 @@ namespace ZYCControl
         /// </summary>
         public bool ControlActived = true;
 
-        public void Refresh(bool paraChanged)
+        private List<bool[]> existCP;
+        private List<Point2Dim[]> CurrentSeriersP;
+
+        public void Refresh(int index, int width)
         {
             if (!ControlActived)
                 return;
 
-            ResetPara(paraChanged);
-            GetDataRange();
-            if (paraChanged)
+            if (CurrentSeriersP == null)
+                CurrentSeriersP = new List<Point2Dim[]>(rawData.Count);
+            if (existCP == null)
+                existCP = new List<bool[]>(rawData.Count);
+
+            ResetPixelData(index, width);
+                
+            if (pixelData.Count > 0 && inG.Count > 0)
             {
-                //preData = new List<series>(seriesNum);
-                ResetPixelData();
+                //bmp.Save(@"d:/test0.bmp");
+                bmp.Dispose();
+                bmp = new Bitmap(ControlWidth, ControlHeight);
+                g = Graphics.FromImage(bmp);
                 for (int i = 0; i < seriesNum; i++)
                 {
-                    DrawSeries(pixelData[i], inG[i]);
-                    //preData.Add(new series());
-                    //_rawData[i].CopyTo(preData[i]);
+                    DrawSeries(pixelData[i], inG[i],index,width,i);
                 }
-                
+
+                //bmp.Save(@"d:/test.bmp");
             }
-            else
+        }
+
+        public void Refresh(bool change)
+        {
+            if (!ControlActived)
+                return;
+
+                CurrentSeriersP = new List<Point2Dim[]>(rawData.Count);
+                existCP = new List<bool[]>(rawData.Count);
+
+            ResetPara();
+            GetDataRange();
+            ResetPixelData(-1, 0);
+
+            
+            if (pixelData.Count > 0 && inG.Count > 0)
             {
                 for (int i = 0; i < seriesNum; i++)
-                    ReDrawDiffArea(preData[i], _rawData[i]);
+                {
+                    DrawSeries(pixelData[i], inG[i],i);
+                }
             }
         }
 
@@ -1532,14 +1557,11 @@ namespace ZYCControl
         /// 控件尺寸变化；
         /// 原始数据变化
         /// </summary>
-        public void ResetPara(bool paraChanged)
+        public void ResetPara()
         {
-            if (paraChanged)
-            {
-                if (bmp != null)
-                    bmp.Dispose();
-                bmp = new Bitmap(ControlWidth, ControlHeight);
-            }            
+            if (bmp != null)
+                bmp.Dispose();
+            bmp = new Bitmap(ControlWidth, ControlHeight);
             g = Graphics.FromImage(bmp);
             width0 = ControlWidth / (DisplayZoneMax[0] - DisplayZoneMin[0]);
             height0 = ControlHeight / (DisplayZoneMax[1] - DisplayZoneMin[1]);
@@ -1654,12 +1676,14 @@ namespace ZYCControl
         /// 画一条曲线
         /// </summary>
         /// <param name="p"></param>
-        private void DrawSeries(series s, bool[] isin)
+        private void DrawSeries(series s, bool[] isin, int ListIndex)
         {
-            int num = s.Count-1;            
+            int num = s.Count-1;
 
-            Point2Dim[] CurrentSeriersP = new Point2Dim[num*2];
-            bool[] tmpb = new bool[num];
+            if (CurrentSeriersP.Count <= ListIndex)
+                CurrentSeriersP.Add(new Point2Dim[num*2]);
+            if (existCP.Count <= ListIndex)
+                existCP.Add(new bool[num]);
             Point2Dim p0, p1;
             //Parallel.For(0, num, i =>
             for(int i = 0; i < num; i++)
@@ -1667,15 +1691,57 @@ namespace ZYCControl
                 
                   p0 = new Point2Dim(s.x[i], s.y[i]);
                   p1 = new Point2Dim(s.x[i + 1], s.y[i + 1]);
-                  tmpb[i] = GetPointInGraphic(s.sColor,
+                  existCP[ListIndex][i] = GetPointInGraphic(s.sColor,
                       new Point2Dim[2] { p0, p1 },
                       new bool[2] { isin[i], isin[i + 1] },
-                      ref CurrentSeriersP[i * 2],
-                      ref CurrentSeriersP[i * 2 + 1]);
+                      ref CurrentSeriersP[ListIndex][i * 2],
+                      ref CurrentSeriersP[ListIndex][i * 2 + 1]);
 
               }
+            DrawMultiLine(s.sColor, CurrentSeriersP[ListIndex], existCP[ListIndex]);
+        }
 
-            DrawMultiLine(s.sColor, CurrentSeriersP, tmpb);
+        private void DrawSeries(series s, bool[] isin, int index, int width, int listIndex)
+        {
+            if (index < 0)
+                DrawSeries(s, isin,listIndex);
+            else
+            {
+                int num = index+width;
+                int cnt = s.Count;
+                
+                Point2Dim p0, p1;
+
+                int j = index;
+                if (j > 0)
+                {
+                    p0 = new Point2Dim(s.x[j - 1], s.y[j - 1]);
+                    p1 = new Point2Dim(s.x[j], s.y[j]);
+                    existCP[listIndex][j] = GetPointInGraphic(s.sColor,
+                        new Point2Dim[2] { p0, p1 },
+                        new bool[2] { isin[j - 1], isin[j] },
+                        ref CurrentSeriersP[listIndex][j * 2 - 2],
+                        ref CurrentSeriersP[listIndex][j * 2 - 1]);
+                    //Console.WriteLine("{0} {1} \t {2} {3}",j*2-2, CurrentSeriersP[j * 2 - 2].y,j*2-1, CurrentSeriersP[j * 2 - 1].y);
+                }
+
+                for (int i = index; i < num; i++)
+                {
+                    if (i+2<cnt)
+                    {
+                        p0 = new Point2Dim(s.x[i], s.y[i]);
+                        p1 = new Point2Dim(s.x[i + 1], s.y[i + 1]);
+                        existCP[listIndex][i] = GetPointInGraphic(s.sColor,
+                            new Point2Dim[2] { p0, p1 },
+                            new bool[2] { isin[i], isin[i + 1] },
+                            ref CurrentSeriersP[listIndex][i * 2],
+                            ref CurrentSeriersP[listIndex][i * 2 + 1]);
+                    }
+                    
+                }
+
+                DrawMultiLine(s.sColor, CurrentSeriersP[listIndex], existCP[listIndex]);
+            }
         }
 
         /// <summary>
@@ -1791,8 +1857,11 @@ namespace ZYCControl
             Point[] nsp = new Point[n];
             Parallel.For(0,n,i=>
                 nsp[i] = Point2ToPoint(nesp[i]));
-            /*for (int i = 0; i < n; i++)
-                nsp[i] = Point2ToPoint(nesp[i]);*/
+
+            /*StreamWriter sw = new StreamWriter(@"d:\nsp.txt");
+            for (int i = 0; i < n; i++)
+                sw.WriteLine(nsp[i]);
+            sw.Close();*/
 
             Pen newPen;
             newPen = new Pen(c);//定义一个画笔
@@ -1810,8 +1879,8 @@ namespace ZYCControl
                     tmp.Clear();
                     tmp.Add(nsp[i].Y);
                 }
-                
-            }            
+            }
+            //bmp.Save(@"d:\red.bmp");
         }
 
         /// <summary>
@@ -1830,18 +1899,51 @@ namespace ZYCControl
             for (int i = 0; i < seriesNum; i++)
             {
                 ds = _rawData[i];
-                int num = ds.x.Length;
-                ts = new series(num);
-                inG.Add( new bool[num]);
-                for (int j = 0; j < num; j++)
+                if (ds.x!=null&&ds.y!=null&&ds.x.Length == ds.y.Length)
                 {
-                    inG[i][j] =
-                    DataInCurrentDisArea(new float[] { ds.x[j], ds.y[j] }, ref tmp);
-                    ts.x[j] = tmp.x;
-                    ts.y[j] = tmp.y;
+                    int num = ds.x.Length;
+                    ts = new series(num);
+                    inG.Add(new bool[num]);
+                    for (int j = 0; j < num; j++)
+                    {
+                        inG[i][j] =
+                        DataInCurrentDisArea(new float[] { ds.x[j], ds.y[j] }, ref tmp);
+                        ts.x[j] = tmp.x;
+                        ts.y[j] = tmp.y;
+                    }
+                    ts.sColor = ds.sColor;
+                    pixelData.Add(ts);
                 }
-                ts.sColor = ds.sColor;
-                pixelData.Add(ts);
+            }
+        }
+
+        private void ResetPixelData(int index, int width)
+        {
+            if (index < 0)
+            {
+                ResetPara();
+                GetDataRange();
+                ResetPixelData();
+                //Console.WriteLine(1);
+            }
+
+            Point2Dim tmp = new Point2Dim();
+            series ds;
+            for (int i = 0; i < seriesNum; i++)
+            {
+                ds = _rawData[i];
+                if (ds.x != null && ds.y != null && ds.x.Length == ds.y.Length)
+                {
+                    int num = index + width;
+                    for (int j = index; j < num; j++)
+                    {
+                        inG[i][j] =
+                        DataInCurrentDisArea(new float[] { ds.x[j], ds.y[j] }, ref tmp);
+                        pixelData[i].x[j] = tmp.x;
+                        pixelData[i].y[j] = tmp.y;
+                    }
+                    
+                }
             }
         }
 
@@ -2073,9 +2175,8 @@ namespace ZYCControl
             pb = SetPixelData(diff_b, out ing_b);
             for (int i = 0; i < pa.Count; i++)
             {
-                //Clear(pa[i]);
-                DrawSeries(pa[i], ing_a[i]);
-                DrawSeries(pb[i], ing_b[i]);
+                /*DrawSeries(pa[i], ing_a[i]);
+                DrawSeries(pb[i], ing_b[i]);*/
             }
         }
         

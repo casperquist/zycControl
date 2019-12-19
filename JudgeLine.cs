@@ -230,33 +230,40 @@ namespace ZYCControl
             {
                 Pen pen = new Pen(color);
                 Pen blank = new Pen(Color.White);
-                g.DrawLine(pen, 0, _YPixel, _width - 1, _YPixel);
-                //g.DrawLine(blank, 0, _YPixel + 1, _width - 1, _YPixel + 1);
-                //g.DrawLine(pen, _XPixel, 0, _XPixel, _height - 1);
-                //g.DrawLine(blank, _XPixel + 1, 0, _XPixel + 1, _height - 1);
+                try
+                {
+                    g.DrawLine(pen, 0, _YPixel, _width - 1, _YPixel);
+                    //g.DrawLine(blank, 0, _YPixel + 1, _width - 1, _YPixel + 1);
+                    //g.DrawLine(pen, _XPixel, 0, _XPixel, _height - 1);
+                    //g.DrawLine(blank, _XPixel + 1, 0, _XPixel + 1, _height - 1);
 
-                string strx = string.Format(InfoFormat, _X);
-                string stry = string.Format(InfoFormat, _Y);
+                    string strx = string.Format(InfoFormat, _X);
+                    string stry = string.Format(InfoFormat, _Y);
 
-                /*SizeF sizex = g.MeasureString(strx, InfoFont);
-                Size sizesx = new Size((int)sizex.Width + 1, (int)sizex.Height + 1);*/
-                SizeF sizey = g.MeasureString(stry, InfoFont);
-                Size sizesy = new Size((int)sizey.Width + 1, (int)sizey.Height + 1);
+                    /*SizeF sizex = g.MeasureString(strx, InfoFont);
+                    Size sizesx = new Size((int)sizex.Width + 1, (int)sizex.Height + 1);*/
+                    SizeF sizey = g.MeasureString(stry, InfoFont);
+                    Size sizesy = new Size((int)sizey.Width + 1, (int)sizey.Height + 1);
 
-                Point ps = new Point();
-                //if (_XPixel < _width / 2)
-                //    ps = new Point(_XPixel, 0);
-                //else
-                //    ps = new Point(_XPixel - sizesx.Width, 0);
-                //g.FillRectangle(new SolidBrush(Color.White), ps.X, ps.Y, sizesx.Width, sizesx.Height);
-                //g.DrawString(strx, InfoFont, new SolidBrush(Color.Black), ps);
+                    Point ps = new Point();
+                    //if (_XPixel < _width / 2)
+                    //    ps = new Point(_XPixel, 0);
+                    //else
+                    //    ps = new Point(_XPixel - sizesx.Width, 0);
+                    //g.FillRectangle(new SolidBrush(Color.White), ps.X, ps.Y, sizesx.Width, sizesx.Height);
+                    //g.DrawString(strx, InfoFont, new SolidBrush(Color.Black), ps);
 
-                if (_YPixel < _height / 2)
-                    ps = new Point(0, _YPixel);
-                else
-                    ps = new Point(0, _YPixel - sizesy.Height);
-                g.FillRectangle(new SolidBrush(Color.White), ps.X, ps.Y, sizesy.Width, sizesy.Height);
-                g.DrawString(stry, InfoFont, new SolidBrush(Color.Black), ps);
+                    if (_YPixel < _height / 2)
+                        ps = new Point(0, _YPixel);
+                    else
+                        ps = new Point(0, _YPixel - sizesy.Height);
+                    g.FillRectangle(new SolidBrush(Color.White), ps.X, ps.Y, sizesy.Width, sizesy.Height);
+                    g.DrawString(stry, InfoFont, new SolidBrush(Color.Black), ps);
+                }
+                catch
+                {
+
+                }
             }
         }
 

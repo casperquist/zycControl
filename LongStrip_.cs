@@ -99,7 +99,8 @@ namespace ZYCControl
             }
             get { return _StepY; }
         }
-
+        private bool ParaChanged;
+        
         public LongStrip_()
         {
             InitializeComponent();
@@ -125,9 +126,10 @@ namespace ZYCControl
             ima.x1 = range[1];
             ima.y0 = range[2];
             ima.y1 = range[3];
-            ima.Refresh(true);
+            //ima.Refresh(true);
             firstZoom = true;
-            Invalidate();
+            UpdataDataAndState(-1, 0);
+                Invalidate();
         }
 
         private void longStripToolLayout1_KeyPress(object sender, KeyPressEventArgs e)
@@ -146,6 +148,7 @@ namespace ZYCControl
 
                 RangeChange?.Invoke(new float[] {
                     ima.x0, ima.x1, ima.y0, ima.y1});
+                UpdataDataAndState(-1, 0);
                 Invalidate();
             }
         }
@@ -156,8 +159,7 @@ namespace ZYCControl
             {
                 ima.ControlHeight = Height == 0 ? 1 : Height;
                 ima.ControlWidth = Width == 0 ? 1 : Width;
-                ima.Refresh(true);
-
+                UpdataDataAndState(-1, 0);
                 Invalidate();
             }
         }
@@ -196,7 +198,7 @@ namespace ZYCControl
                     (float)(ima.y1 - ima.yh * ima.DisplayZoneMin[1])});
 
                 firstZoom = false;
-                ima.Refresh(true);
+                UpdataDataAndState(-1, 0);
                 Invalidate();
             }
         }
@@ -213,13 +215,18 @@ namespace ZYCControl
         }
 
         protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
+        {            
             if (ima != null)
-            {
-                ima.Refresh(true);
+            {                
                 e.Graphics.DrawImage(ima.bmp, 0, 0);
             }
+            
+        }
+
+        public void UpdataDataAndState(int index, int width)
+        {
+            ima.Refresh(index, width);
+            Invalidate();
         }
 
         /// <summary>
@@ -245,7 +252,7 @@ namespace ZYCControl
             wt = ima.DisplayZoneMax[0] - ima.DisplayZoneMin[0];
             ht = ima.DisplayZoneMax[1] - ima.DisplayZoneMin[1];
             firstZoom = false;
-            ima.Refresh(true);
+            UpdataDataAndState(-1, 0);
             Invalidate();
         }
     }

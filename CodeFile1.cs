@@ -101,6 +101,7 @@ namespace ZYCControl
             }
             series a = new series(x, y);
             List<series> list = new List<series>() { a};
+            AscanTest ascanTest = new AscanTest(x,y);
            
             /*ascan_Ruler1.ascan_1.StepX = 1;
             ascan_Ruler1.ascan_1.StepY = 0.001f;
@@ -199,7 +200,7 @@ namespace ZYCControl
 
         static void LongStripTest()
         {
-            int num = 360;
+            int num = 36000;
             float[] x = new float[num];
             float[] y = new float[num];
             float[] y2 = new float[num];
@@ -215,7 +216,7 @@ namespace ZYCControl
             series a = new series(x, y);
             series b = new series(x, y2);
             series c = new series(x, y3);
-            List<series> list = new List<series>() { a,b,c };
+            List<series> list = new List<series>() { a };
             LongStripTest ls = new LongStripTest();
             ls.startX = x[0];
             ls.endX = x[num - 1];

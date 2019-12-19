@@ -88,6 +88,8 @@ namespace ZYCControl
         
         private Rectangle DarwSingle(Graphics g, int posx, int posy, float x, float y, Color c, int height, int width, Rectangle preRect)
         {
+            if (font == null)
+                font = new Font("宋体", 8);
             string info = x.ToString() +UnitX+ ";" + y.ToString(StrFormat)+UnitY;
             SizeF ss = g.MeasureString(info, font);
             Size s = new Size((int)ss.Width, (int)ss.Height);

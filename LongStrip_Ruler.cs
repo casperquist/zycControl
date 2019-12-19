@@ -84,7 +84,13 @@ namespace ZYCControl
         public bool judge1Enable;
         public Color judge0Color;
         public Color judge1Color;
-        public List<series> data;
+        private List<series> _data;
+        public List<series> data
+        {
+            get { return _data; }
+            set { _data = value; }
+        }
+        
         public Font tipFont;
         public string tipFormat;
         public string tipXunit;
@@ -115,6 +121,11 @@ namespace ZYCControl
             longStrip_1.longStripToolLayout1.infoShow.UnitY = tipYunit;
             ReDrawRuler();
                         
+        }
+
+        public void UpdataDataAndState(int index, int width)
+        {
+            longStrip_1.UpdataDataAndState(index, width);
         }
     }
 }

@@ -49,7 +49,6 @@ namespace ZYCControl
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            longStrip1.ima.preData = copy(longStrip1.ima.rawData);
             int step = 10;
             int count = longStrip1.ima.rawData[0].Count;
             if (num < count)

@@ -1,4 +1,6 @@
-﻿namespace ZYCControl
+﻿using System;
+
+namespace ZYCControl
 {
     partial class LongStripTest
     {
@@ -28,7 +30,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.longStrip_Ruler1 = new ZYCControl.LongStrip_Ruler();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // longStrip_Ruler1
@@ -38,6 +42,10 @@
             this.longStrip_Ruler1.Name = "longStrip_Ruler1";
             this.longStrip_Ruler1.Size = new System.Drawing.Size(348, 322);
             this.longStrip_Ruler1.TabIndex = 0;
+            // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // LongStripTest
             // 
@@ -51,8 +59,11 @@
 
         }
 
+        
+
         #endregion
 
         public LongStrip_Ruler longStrip_Ruler1;
+        private System.Windows.Forms.Timer timer1;
     }
 }

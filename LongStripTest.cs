@@ -15,8 +15,11 @@ namespace ZYCControl
         public LongStripTest()
         {
             InitializeComponent();
-            
+            tk = 0;
+            tk0 = 0;
         }
+        private int tk;
+        private int tk0;
 
         public float stepX;
         public float stepY;
@@ -62,12 +65,30 @@ namespace ZYCControl
             longStrip_Ruler1.longStrip_1.longStripToolLayout1.infoShow.UnitY = tipYunit;
             longStrip_Ruler1.ReDrawRuler();
 
+
+            timer1.Enabled = true;
+
             StartPosition = FormStartPosition.CenterParent;
             if (showDialog)
                 ShowDialog();
             else
                 Show();
         }
-        
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            tk++;
+            if (data != null)
+            {
+                data[0].y[tk] = 0;
+                
+            }
+            if (tk-tk0>10)
+            {
+                longStrip_Ruler1.UpdataDataAndState(tk0, tk-tk0);
+                tk0 = tk;
+            }
+        }
+
     }
 }

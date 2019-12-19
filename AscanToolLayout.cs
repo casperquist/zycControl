@@ -21,6 +21,9 @@ namespace ZYCControl
         private bool AltIsDown, ControlIsDown, ShiftIsDown, SpaceIsDown;
         public event RangeChangedHandleEvent RangeChanged;
         public event MarkChangeHandleEvent GateChanged;
+        /// <summary>
+        /// 光标变动时
+        /// </summary>
         public event MarkChangeHandleEvent CursorChange;
         private bool MouseIsInControl;
         private string MouseState;
